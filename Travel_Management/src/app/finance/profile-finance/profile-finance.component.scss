@@ -1,0 +1,412 @@
+// -----------------------------------------------
+// Design Tokens (mirrors Tailwind config)
+// -----------------------------------------------
+:host {
+  --color-surface:                  #f7f9fb;
+  --color-surface-container-low:    #f2f4f6;
+  --color-surface-container:        #eceef0;
+  --color-surface-container-high:   #e6e8ea;
+  --color-surface-container-highest:#e0e3e5;
+  --color-surface-container-lowest: #ffffff;
+  --color-primary:                  #002045;
+  --color-on-primary:               #ffffff;
+  --color-primary-container:        #1a365d;
+  --color-on-primary-container:     #86a0cd;
+  --color-on-primary-fixed-variant: #2d476f;
+  --color-secondary:                #00629d;
+  --color-secondary-container:      #61b4fd;
+  --color-on-secondary:             #ffffff;
+  --color-on-surface:               #191c1e;
+  --color-on-surface-variant:       #43474e;
+  --color-outline:                  #74777f;
+  --color-outline-variant:          #c4c6cf;
+
+  --font-headline: 'Manrope', sans-serif;
+  --font-body:     'Inter', sans-serif;
+
+  --radius-xl:   0.5rem;
+  --radius-full: 0.75rem;
+
+  display: block;
+}
+
+// -----------------------------------------------
+// Base
+// -----------------------------------------------
+.page-wrapper {
+  font-family: var(--font-body);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// -----------------------------------------------
+// Main
+// -----------------------------------------------
+.main-content {
+  width: 100%;
+  max-width: 56rem; // ~896px ≈ max-w-4xl
+  padding: 6rem 2rem 3rem;
+  flex-grow: 1;
+}
+
+// -----------------------------------------------
+// Profile Header
+// -----------------------------------------------
+.profile-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3rem;
+  margin-bottom: 5rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+// Avatar
+.avatar-block {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-frame {
+  width: 16rem;
+  height: 16rem;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-surface-container-highest);
+  box-shadow: 0 20px 40px rgba(0, 32, 69, 0.18);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+// Status Pill
+.status-pill {
+  position: absolute;
+  bottom: -1rem;
+  right: -1rem;
+  background: var(--color-surface-container-lowest);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pulse-dot {
+  position: relative;
+  display: flex;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  opacity: 0.75;
+  animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.dot {
+  position: relative;
+  display: inline-flex;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--color-secondary);
+}
+
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+.status-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+}
+
+// Name Meta
+.profile-meta {
+  flex: 1;
+  padding-bottom: 1rem;
+}
+
+.profile-tag {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+}
+
+.profile-name {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0 0 0.5rem;
+}
+
+.profile-title {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: var(--color-on-surface-variant);
+  line-height: 1.6;
+  max-width: 28rem;
+  margin: 0;
+}
+
+// -----------------------------------------------
+// Bento Grid
+// -----------------------------------------------
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+// -----------------------------------------------
+// Cards — shared
+// -----------------------------------------------
+.card {
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+}
+
+// Management Card
+.card--management {
+  background: var(--color-surface-container-low);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 14rem;
+}
+
+.card-label {
+  font-family: var(--font-headline);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-on-primary-fixed-variant);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+}
+
+.manager-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.manager-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-surface-container-highest);
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.manager-name {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 0.2rem;
+}
+
+.manager-title {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-on-surface-variant);
+  margin: 0;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 3rem;
+}
+
+.tag {
+  background: var(--color-surface-container-lowest);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+// Right column
+.card-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// Primary (dark) card — Office Location
+.card--primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icon-hub {
+  font-family: 'Material Symbols Outlined';
+  font-size: 2rem;
+  color: var(--color-secondary-container);
+  margin-bottom: 1rem;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.card-sublabel {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.7;
+  margin: 0 0 0.25rem;
+}
+
+.card-value {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+// ID Card
+.card--id {
+  background: var(--color-surface-container-highest);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.id-info {
+  display: flex;
+  flex-direction: column;
+
+  .card-sublabel {
+    color: var(--color-on-surface-variant);
+    opacity: 1;
+  }
+}
+
+.id-value {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.icon-fingerprint {
+  font-family: 'Material Symbols Outlined';
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  opacity: 0.2;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+// -----------------------------------------------
+// Footer
+// -----------------------------------------------
+.footer {
+  width: 100%;
+  padding: 2rem 0;
+  background: #f1f5f9; // slate-100
+}
+
+.footer-inner {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footer-brand {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  color: #1e3a8a; // blue-900
+}
+
+.footer-copy {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748b; // slate-500
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+
+  a {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #64748b;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: color 0.2s ease, opacity 0.2s ease;
+
+    &:hover {
+      color: #1d4ed8; // blue-700
+      opacity: 1;
+    }
+  }
+}

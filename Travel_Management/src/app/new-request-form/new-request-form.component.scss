@@ -1,0 +1,376 @@
+// ============================================
+// Variables
+// ============================================
+$primary: #002045;
+$primary-container: #1a365d;
+$secondary: #00629d;
+$secondary-container: #61b4fd;
+$surface: #f7f9fb;
+$surface-container-low: #f2f4f6;
+$surface-container-lowest: #ffffff;
+$surface-container-high: #e6e8ea;
+$on-surface: #191c1e;
+$on-surface-variant: #43474e;
+$on-primary: #ffffff;
+$outline: #74777f;
+$outline-variant: #c4c6cf;
+$font-manrope: 'Manrope', sans-serif;
+$font-inter: 'Inter', sans-serif;
+
+// ============================================
+// Host
+// ============================================
+:host {
+  display: block;
+  min-height: 100vh;
+  background: $surface;
+  font-family: $font-inter;
+  color: $on-surface;
+}
+
+// ============================================
+// Main Content
+// ============================================
+.create-request {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 2rem 5rem;   // 👈 changed 8rem → 2rem
+
+  @media (min-width: 1024px) {
+    padding: 2rem 5rem 5rem;  // 👈 changed 8rem → 2rem
+  }
+}
+
+// ============================================
+// Page Header
+// ============================================
+.page-header {
+  margin-bottom: 3rem;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: $secondary;
+  margin-bottom: 1rem;
+}
+
+.badge-text {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.page-title {
+  font-family: $font-manrope;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: $primary;
+  letter-spacing: -0.03em;
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+}
+
+.page-description {
+  color: $on-surface-variant;
+  max-width: 640px;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+// ============================================
+// Content Grid
+// ============================================
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+}
+
+// ============================================
+// Form Column
+// ============================================
+.form-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card {
+  background: $surface-container-lowest;
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  width:500px ;
+  box-shadow: 0 20px 40px rgba(0, 27, 60, 0.04);
+
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+.travel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+// ============================================
+// Form Row
+// ============================================
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// ============================================
+// Form Group
+// ============================================
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $on-surface-variant;
+  margin-left: 0.25rem;
+}
+
+// ============================================
+// Input Wrapper & Icon
+// ============================================
+.input-wrapper {
+  position: relative;
+}
+
+.field-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $outline;
+  font-size: 1.25rem;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+// ============================================
+// Form Input
+// ============================================
+.form-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  background: $surface-container-low;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0.5rem;
+  font-family: $font-inter;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: $on-surface;
+  outline: none;
+  transition: all 0.3s ease;
+
+  &::placeholder {
+    color: $outline-variant;
+  }
+
+  &:focus {
+    background: $surface-container-lowest;
+    border-bottom-color: $secondary;
+    box-shadow: 0 4px 12px rgba($secondary, 0.08);
+  }
+
+  &:focus ~ .field-icon {
+    color: $secondary;
+  }
+}
+
+// ============================================
+// Form Select
+// ============================================
+.form-select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2374777f' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+// ============================================
+// Form Textarea
+// ============================================
+.form-textarea {
+  resize: none;
+  min-height: 120px;
+}
+
+// ============================================
+// Form Actions
+// ============================================
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba($outline-variant, 0.3);
+}
+
+
+// ============================================
+// Buttons
+// ============================================
+.btn {
+  font-family: $font-manrope;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  padding: 0.75rem 2rem;
+  color: $secondary;
+  background: rgba($secondary-container, 0.1);
+
+  &:hover:not(:disabled) {
+    background: rgba($secondary-container, 0.2);
+  }
+}
+
+.btn-primary {
+  padding: 0.75rem 2.5rem;
+  color: $on-primary;
+  background: $primary;
+  box-shadow: 0 10px 20px rgba($primary, 0.2);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 15px 30px rgba($primary, 0.3);
+    background: darken($primary, 3%);
+  }
+}
+
+.btn-icon {
+  font-size: 1.125rem;
+}
+
+// ============================================
+// Spinner
+// ============================================
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba($on-primary, 0.3);
+  border-top-color: $on-primary;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ============================================
+// Context Column (Right Side)
+// ============================================
+.context-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// ============================================
+// Cards (Shared Styles)
+// ============================================
+.card {
+  padding: 2rem;
+  border-radius: 0.75rem;
+
+  @media (max-width: 1023px) {
+    padding: 1.5rem;
+  }
+}
+
+.card-title {
+  font-family: $font-manrope;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+
+
+// ============================================
+// Background Decorations
+// ============================================
+.bg-decoration {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-decoration-right {
+  top: 0;
+  right: 0;
+  width: 33.333%;
+  height: 100vh;
+  background: linear-gradient(to left, rgba(#f1f5f9, 0.5), transparent);
+}
+
+
+
+// ============================================
+// Responsive
+// ============================================
+@media (max-width: 768px) {
+  .create-request {
+    padding: 7rem 1rem 3rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .benefits-list {
+    gap: 0.75rem;
+  }
+}

@@ -1,0 +1,46 @@
+<div class="flex min-h-screen bg-slate-100">
+
+  <!-- Sidebar (fixed, left side) -->
+  <aside class="fixed left-0 top-0 h-full flex flex-col py-8 px-6 
+                bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl 
+                w-72 shadow-[20px_0px_40px_rgba(0,27,60,0.04)] z-50">
+    
+    <div class="mb-12">
+      <h1 class="font-manrope font-black text-2xl text-[#1A365D] uppercase tracking-widest">
+        Sovereign Travel
+      </h1>
+      <p class="font-manrope text-xs font-semibold tracking-widest text-slate-400 mt-1 uppercase">
+        Architectural Concierge
+      </p>
+    </div>
+
+    <nav class="flex-1 space-y-2">
+      @for (item of nav; track item.path) {
+      <a [routerLink]="item.path"
+         routerLinkActive="bg-white/70 border-l-4 border-[#1A365D] text-[#1A365D]"
+         class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 
+                hover:text-[#1A365D] hover:bg-slate-100 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">{{item.icon}}</span>
+        {{ item.label }}
+      </a>
+  }
+
+    </nav>
+
+    <div class="mt-auto pt-4 border-t border-slate-200">
+      <button class="w-full flex items-center gap-4 py-3 px-4 rounded transition-all 
+                   text-slate-500 hover:text-red-500 font-manrope text-sm font-semibold tracking-tight text-left"
+                    (click)="goToLogin()">
+        <span class="material-symbols-outlined">logout</span>
+        Logout
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ✅ Main Content Area — offset by sidebar width -->
+  <main class="ml-72 flex-1 min-h-screen bg-slate-100 p-8">
+    <router-outlet></router-outlet>   <!-- ✅ Pages render HERE, next to sidebar -->
+  </main>
+
+</div>

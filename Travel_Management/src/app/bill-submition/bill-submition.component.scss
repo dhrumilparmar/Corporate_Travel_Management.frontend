@@ -1,0 +1,105 @@
+// expense-management.component.scss
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Responsive grid layout
+@media (min-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: 400px 1fr !important;
+  }
+  
+  .page-header {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  
+  .footer-links {
+    gap: 2rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .page-header {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+// Hover states
+.btn-primary:hover {
+  opacity: 0.9 !important;
+  transform: scale(0.98);
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+.upload-area:hover {
+  background-color: #eceef0 !important;
+}
+
+.upload-area:hover div {
+  transform: scale(1.1);
+}
+
+.table-row:hover td {
+  background-color: rgba(242, 244, 246, 0.5) !important;
+}
+
+.receipt-icon:hover {
+  color: #004a78 !important;
+}
+
+.footer-link:hover {
+  color: #00629d !important;
+}
+
+.total-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.user-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.status-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-select:hover,
+.form-input:hover {
+  background-color: #e6e8ea !important;
+}
+
+.form-select:focus,
+.form-input:focus {
+  box-shadow: 0 0 0 2px rgba(0, 98, 157, 0.2) !important;
+}
+
+// Pulse animation for status indicator
+@keyframes pulse-indicator {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.status-card div:nth-child(1) div:first-child span {
+  animation: pulse-indicator 2s infinite;
+}

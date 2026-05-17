@@ -1,0 +1,76 @@
+<div class="page-wrapper">
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+
+      <!-- Avatar Block -->
+      <div class="avatar-block">
+        <div class="avatar-frame">
+          <img [src]="profile.avatarUrl" [alt]="profile.name" class="avatar-img" />
+        </div>
+        <!-- Status Pill -->
+        <div class="status-pill">
+          <span class="pulse-dot">
+            <span class="ping"></span>
+            <span class="dot"></span>
+          </span>
+          <span class="status-label">{{ profile.status }}</span>
+        </div>
+      </div>
+
+      <!-- Name & Meta -->
+      <div class="profile-meta">
+        <p class="profile-tag">{{ profile.tag }}</p>
+        <h1 class="profile-name">{{ profile.name }}</h1>
+        <p class="profile-title">{{ profile.title }}</p>
+      </div>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="bento-grid">
+
+      <!-- Management Card -->
+      <div class="card card--management">
+        <h3 class="card-label">Direct Reporting</h3>
+        <div class="manager-row">
+          <div class="manager-avatar">
+            <img [src]="manager.avatarUrl" [alt]="manager.name" />
+          </div>
+          <div class="manager-info">
+            <p class="manager-name">{{ manager.name }}</p>
+            <p class="manager-title">{{ manager.title }}</p>
+          </div>
+        </div>
+        <div class="tag-row">
+          <span class="tag" *ngFor="let tag of tags">{{ tag }}</span>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="card-col">
+
+        <!-- Office Location Card -->
+        <div class="card card--primary">
+          <span class="material-symbols-outlined icon-hub">hub</span>
+          <p class="card-sublabel">Office Location</p>
+          <p class="card-value">{{ officeLocation }}</p>
+        </div>
+
+        <!-- Corporate ID Card -->
+        <div class="card card--id">
+          <div class="id-info">
+            <p class="card-sublabel">Corporate ID</p>
+            <p class="id-value">{{ corporateId }}</p>
+          </div>
+          <span class="material-symbols-outlined icon-fingerprint">fingerprint</span>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+</div>
+

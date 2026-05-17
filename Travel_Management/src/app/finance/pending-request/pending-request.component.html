@@ -1,0 +1,140 @@
+<!-- Main Content Canvas -->
+<main class="max-w-[1440px] mx-auto px-20 pt-1rem pb-3rem">
+  <!-- Header Section -->
+  <header class="flex justify-between items-end mb-12">
+    <div class="space-y-2">
+      <h1 class="font-headline font-extrabold text-4xl tracking-tight text-primary">Pending Finance Approvals</h1>
+      <p class="text-on-surface-variant font-medium flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+        You have <span class="text-primary font-bold">{{ pendingRequestCount }} pending requests</span> awaiting budget validation.
+      </p>
+    </div>
+    <div class="flex gap-4">
+      <div class="bg-surface-container-low px-6 py-4 rounded-xl flex flex-col items-end border-r-4 border-secondary shadow-sm">
+        <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Value</span>
+        <span class="font-headline font-bold text-2xl text-primary">{{ totalValue | currency:'USD':'symbol':'1.2-2' }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stats Bento Grid Segment -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <div class="bg-surface-container-lowest p-6 rounded-xl architectural-shadow flex items-start justify-between">
+      <div>
+        <p class="text-sm font-semibold text-on-surface-variant mb-1">Awaiting Validation</p>
+        <p class="font-headline text-3xl font-bold text-primary">{{ pendingRequestCount }}</p>
+      </div>
+      <div class="bg-secondary-fixed p-3 rounded-lg">
+        <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+      </div>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl architectural-shadow flex items-start justify-between">
+      <div>
+        <p class="text-sm font-semibold text-on-surface-variant mb-1">Avg. Processing Time</p>
+        <p class="font-headline text-3xl font-bold text-primary">{{ avgProcessingTime }}</p>
+      </div>
+      <div class="bg-primary-fixed p-3 rounded-lg">
+        <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">timer</span>
+      </div>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl architectural-shadow flex items-start justify-between">
+      <div>
+        <p class="text-sm font-semibold text-on-surface-variant mb-1">High Value (&gt; $10k)</p>
+        <p class="font-headline text-3xl font-bold text-primary">{{ highValueCount }}</p>
+      </div>
+      <div class="bg-tertiary-fixed p-3 rounded-lg">
+        <span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- High-Density Approval Table -->
+  <div class="bg-surface-container-lowest rounded-xl architectural-shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-surface-container-low">
+            <th class="px-8 py-5 text-xs font-bold text-primary uppercase tracking-widest font-label">Req ID</th>
+            <th class="px-8 py-5 text-xs font-bold text-primary uppercase tracking-widest font-label">Employee</th>
+            <th class="px-8 py-5 text-xs font-bold text-primary uppercase tracking-widest font-label">Budget Amount</th>
+            <th class="px-8 py-5 text-xs font-bold text-primary uppercase tracking-widest font-label">Policy Compliance</th>
+            <th class="px-8 py-5 text-xs font-bold text-primary uppercase tracking-widest font-label">Manager Approval</th>
+            <th class="px-8 py-5 text-xs font-bold text-primary uppercase tracking-widest font-label text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          <!-- Loop through each request -->
+          <tr *ngFor="let request of requests" class="hover:bg-surface-container-low/50 transition-colors group">
+            <td class="px-8 py-6">
+              <span class="font-headline font-bold text-primary text-sm">{{ request.id }}</span>
+            </td>
+            <td class="px-8 py-6">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold" [ngClass]="[request.employee.avatarColor, request.employee.textColor]">
+                  {{ request.employee.initials }}
+                </div>
+                <div>
+                  <p class="font-semibold text-on-surface text-sm">{{ request.employee.name }}</p>
+                  <p class="text-xs text-on-surface-variant font-medium">{{ request.employee.department }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-8 py-6">
+              <p class="font-headline font-bold text-primary">
+                {{ request.amount.value | currency:request.amount.currency:'symbol':'1.2-2' }}
+                <span class="text-xs text-on-surface-variant font-body">{{ request.amount.currency }}</span>
+              </p>
+            </td>
+            <td class="px-8 py-6">
+              <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border" [ngClass]="{
+                  'bg-secondary-container/20 text-on-secondary-container border-secondary-container/30': request.policy.isCompliant,
+                  'bg-error-container/20 text-error border-error-container/30': !request.policy.isCompliant
+                }">
+                <span class="material-symbols-outlined text-[14px] mr-1">{{ request.policy.isCompliant ? 'check_circle' : 'warning' }}</span>
+                {{ request.policy.text }}
+              </div>
+            </td>
+            <td class="px-8 py-6">
+              <div class="flex items-center gap-2" [ngClass]="{'text-on-surface-variant': !request.managerApproved}">
+                <span class="material-symbols-outlined" [ngClass]="{'text-secondary': request.managerApproved}" style="font-variation-settings: 'FILL' 1;">
+                  verified_user
+                </span>
+                <span class="text-xs font-semibold">Manager Approved</span>
+              </div>
+            </td>
+            <td class="px-8 py-6 text-right">
+              <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button (click)="approveRequest(request.id)" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-primary-container transition-colors">
+                  Approve
+                </button>
+                <button (click)="rejectRequest(request.id)" class="bg-surface-container-highest text-error px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-error-container transition-colors">
+                  Reject 
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Table Footer / Pagination -->
+    <div class="px-8 py-4 bg-surface-container flex justify-between items-center border-t border-surface-container-high">
+      <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Showing {{ requests.length }} of {{ pendingRequestCount }} requests</span>
+      <div class="flex gap-2">
+        <button class="p-2 rounded hover:bg-surface-container-highest transition-colors">
+          <span class="material-symbols-outlined text-sm">chevron_left</span>
+        </button>
+        <button class="p-2 rounded bg-primary text-on-primary transition-colors">
+          <span class="text-xs font-bold px-2">1</span>
+        </button>
+        <button class="p-2 rounded hover:bg-surface-container-highest transition-colors">
+          <span class="text-xs font-bold px-2">2</span>
+        </button>
+        <button class="p-2 rounded hover:bg-surface-container-highest transition-colors">
+          <span class="material-symbols-outlined text-sm">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other sections from your HTML can be added here following the same pattern -->
+</main>

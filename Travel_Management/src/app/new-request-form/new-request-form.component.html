@@ -1,0 +1,134 @@
+
+<!-- Top Navigation Bar -->
+
+<!-- Main Content -->
+<main class="create-request">
+
+  <!-- Header Section -->
+  <section class="page-header">
+    <div class="header-badge">
+      <span class="material-symbols-outlined">flight_takeoff</span>
+      <span class="badge-text">Request Portal</span>
+    </div>
+    <h1 class="page-title">New Travel Request</h1>
+    <p class="page-description">
+      Submit your corporate travel details for approval. Our architectural 
+      concierge system will automatically align your request with regional 
+      policies and elite-tier preferences.
+    </p>
+  </section>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+
+    <!-- =============================== -->
+    <!-- Left Side: Form Canvas -->
+    <!-- =============================== -->
+    <div class="form-column">
+      <div class="form-card">
+        <form class="travel-form" (ngSubmit)="submitRequest()">
+
+          <!-- Row 1: Destination & Dates -->
+          <div class="form-row">
+            
+            <!-- Destination -->
+            <div class="form-group">
+              <label class="form-label">Destination City</label>
+              <div class="input-wrapper">
+                <span class="material-symbols-outlined field-icon">location_on</span>
+                <input 
+                  class="form-input"
+                  type="text"
+                  placeholder="e.g. Zurich, Switzerland"
+                  [(ngModel)]="request.destination"
+                  name="destination"/>
+              </div>
+            </div>
+
+            <!-- Travel Dates -->
+            <div class="form-group">
+              <label class="form-label">Travel Dates</label>
+              <div class="input-wrapper">
+                <span class="material-symbols-outlined field-icon">calendar_today</span>
+                <input 
+                  class="form-input"
+                  type="text"
+                  placeholder="Select range..."
+                  [(ngModel)]="request.travelDates"
+                  name="travelDates"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Purpose & Budget -->
+          <div class="form-row">
+            
+            <!-- Business Purpose -->
+            <div class="form-group">
+              <label class="form-label">Business Purpose</label>
+              <div class="input-wrapper">
+                <span class="material-symbols-outlined field-icon">work_outline</span>
+                <select 
+                  class="form-input form-select"
+                  [(ngModel)]="request.businessPurpose"
+                  name="businessPurpose">
+                  @for (option of purposeOptions; track option) {
+                    <option [value]="option">{{ option }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <!-- Budget -->
+            <div class="form-group">
+              <label class="form-label">Estimated Budget (USD)</label>
+              <div class="input-wrapper">
+                <span class="material-symbols-outlined field-icon">payments</span>
+                <input 
+                  class="form-input"
+                  type="number"
+                  placeholder="0.00"
+                  [(ngModel)]="request.estimatedBudget"
+                  name="budget"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Trip Details -->
+          <div class="form-group">
+            <label class="form-label">Trip Details & Objectives</label>
+            <textarea 
+              class="form-input form-textarea"
+              placeholder="Briefly describe the goals of this trip..."
+              rows="4"
+              [(ngModel)]="request.tripDetails"
+              name="tripDetails">
+            </textarea>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button 
+              class="btn btn-secondary" 
+              type="button"
+              (click)="saveDraft()">
+              Save as Draft
+            </button>
+            <button 
+              class="btn btn-primary" 
+              type="submit"
+              [disabled]="isSubmitting">
+              @if (isSubmitting) {
+                <span class="spinner"></span>
+                <span>Submitting...</span>
+              } @else {
+                <span>Submit Request</span>
+                <span class="material-symbols-outlined btn-icon">send</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

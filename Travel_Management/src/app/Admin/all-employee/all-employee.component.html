@@ -1,0 +1,200 @@
+<!-- Main Content Canvas -->
+<main class="min-h-screen p-8 md:p-12 lg:p-16 max-w-7xl mx-auto">
+  <!-- Header Section -->
+  <header class="mb-12 flex flex-col md:flex-row justify-between items-end gap-6 border-b border-outline-variant/20 pb-8">
+    <div class="max-w-2xl">
+      <nav class="flex items-center gap-2 mb-4 text-label-md text-on-surface-variant">
+        <span class="hover:text-primary cursor-pointer transition-colors">Organization</span>
+        <span class="material-symbols-outlined text-sm">chevron_right</span>
+        <span class="text-primary font-semibold">Employee Directory</span>
+      </nav>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-primary">Global Directory</h1>
+      <p class="mt-4 text-on-surface-variant text-lg leading-relaxed">
+        Manage and oversee your global workforce. Access employee profiles, departmental hierarchies, and status updates across all Sovereign Travel regional offices.
+      </p>
+    </div>
+    <div class="flex gap-3">
+      <button (click)="onExportCSV()" class="bg-surface-container-lowest text-primary border border-outline-variant px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 hover:bg-surface-container-low transition-all">
+        <span class="material-symbols-outlined text-sm">download</span>
+        Export CSV
+      </button>
+      <button routerLink="/admin/add-employee" class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 hover:opacity-90 shadow-lg shadow-primary/10 transition-all">
+        <span class="material-symbols-outlined text-sm">person_add</span>
+        Add Employee
+      </button>
+    </div>
+  </header>
+
+  <!-- Filters Section -->
+  <section class="mb-8 p-6 bg-surface-container-low rounded-xl">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <!-- Search -->
+      <div class="md:col-span-2 relative">
+        <label class="block text-label-md font-medium text-on-surface-variant mb-2">Search Employees</label>
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          <input 
+            [(ngModel)]="searchQuery"
+            class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border-none rounded-lg focus:ring-2 focus:ring-secondary/20 text-body-md placeholder:text-outline" 
+            placeholder="Search by name, email, or employee ID..." 
+            type="text"
+          />
+        </div>
+      </div>
+      <!-- Role Filter -->
+      <div>
+        <label class="block text-label-md font-medium text-on-surface-variant mb-2">Filter by Role</label>
+        <select 
+          [(ngModel)]="selectedRole"
+          (change)="currentPage = 1"
+          class="w-full px-4 py-3 bg-surface-container-lowest border-none rounded-lg focus:ring-2 focus:ring-secondary/20 text-body-md appearance-none"
+        >
+          <option *ngFor="let role of uniqueRoles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+      <!-- Manager Filter -->
+      <div>
+        <label class="block text-label-md font-medium text-on-surface-variant mb-2">Reporting Manager</label>
+        <select 
+          [(ngModel)]="selectedManager"
+          (change)="currentPage = 1"
+          class="w-full px-4 py-3 bg-surface-container-lowest border-none rounded-lg focus:ring-2 focus:ring-secondary/20 text-body-md appearance-none"
+        >
+          <option *ngFor="let manager of uniqueManagers" [value]="manager">{{ manager }}</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Directory Table Card -->
+  <!-- Directory Table Card -->
+  <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-surface-container-low">
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase">Name</th>
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase">Email</th>
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase">Department</th>
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase">Role</th>
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase">Manager</th>
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase text-center">Status</th>
+            <!-- Added Actions Header -->
+            <th class="px-6 py-4 text-label-md font-bold text-primary tracking-wider uppercase text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container">
+          <!-- Dynamic Rows -->
+          <tr *ngFor="let emp of paginatedEmployees" class="hover:bg-surface-bright transition-colors group">
+            <td class="px-6 py-5">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center" [ngClass]="emp.avatar ? 'bg-primary-fixed' : 'bg-surface-container-high'">
+                  <img *ngIf="emp.avatar" [src]="emp.avatar" [alt]="emp.emp_name" class="w-full h-full object-cover" />
+                  <span  class="material-symbols-outlined text-outline">person</span>
+                </div>
+                <div>
+                  <div class="font-bold text-primary">{{ emp.emp_name }}</div>
+                  <div class="text-xs text-on-surface-variant">ID: {{ emp.id }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-5 text-body-md text-on-surface-variant">{{ emp.email }}</td>
+            <td class="px-6 py-5">
+              <span class="bg-surface-container px-3 py-1 rounded-full text-xs font-medium text-on-surface">{{ emp.department }}</span>
+            </td>
+            <td class="px-6 py-5 text-body-md">{{ emp.role }}</td>
+            <td class="px-6 py-5 text-body-md">{{ emp.manager }}</td>
+            <td class="px-6 py-5">
+              <div class="flex justify-center">
+                <span class="flex items-center gap-2 px-3 py-1 font-semibold text-xs rounded-full" [ngClass]="getStatusClass(emp.status)">
+                  <span class="w-2 h-2 rounded-full" [ngClass]="getStatusDotClass(emp.status)"></span> 
+                  {{ emp.status }}
+                </span>
+              </div>
+            </td>
+            
+            <!-- Added Actions Cell with Hover Effect -->
+            <td class="px-6 py-5">
+              <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <!-- Update Button -->
+                <button (click)="onUpdateEmployee(emp)" class="p-2 rounded-lg hover:bg-surface-container text-primary transition-colors" title="Update">
+                  <span class="material-symbols-outlined text-lg">edit</span>
+                </button>
+                <!-- Delete Button -->
+                <button (click)="onDeleteEmployee(emp)" class="p-2 rounded-lg hover:bg-error-container text-error transition-colors" title="Delete">
+                  <span class="material-symbols-outlined text-lg">delete</span>
+                </button>
+              </div>
+            </td>
+            
+          </tr>
+          
+          <!-- Empty State (Updated colspan to 7) -->
+          <tr *ngIf="paginatedEmployees.length === 0">
+            <td colspan="7" class="px-6 py-12 text-center text-on-surface-variant">
+              No employees found matching your criteria.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ... Pagination Footer remains the same ... -->
+
+    <!-- Pagination Footer -->
+    <footer class="px-6 py-4 border-t border-surface-container flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-label-md text-on-surface-variant">
+        Showing <span class="font-bold text-on-surface">{{ paginatedEmployees.length }}</span> of <span class="font-bold text-on-surface">{{ filteredEmployees.length }}</span> employees
+      </div>
+      <div class="flex items-center gap-2" *ngIf="totalPages > 1">
+        <button 
+          (click)="changePage(currentPage - 1)" 
+          [disabled]="currentPage === 1"
+          class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <span class="material-symbols-outlined text-xl">chevron_left</span>
+        </button>
+        
+        <button 
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          (click)="changePage(i + 1)"
+          class="w-10 h-10 flex items-center justify-center rounded-lg transition-colors text-sm font-medium"
+          [ngClass]="currentPage === i + 1 ? 'bg-primary text-on-primary font-bold' : 'border border-outline-variant hover:bg-surface-container-low'"
+        >
+          {{ i + 1 }}
+        </button>
+
+        <button 
+          (click)="changePage(currentPage + 1)" 
+          [disabled]="currentPage === totalPages"
+          class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <span class="material-symbols-outlined text-xl">chevron_right</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Secondary Meta Data / Asymmetric Element -->
+  <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-primary-container p-8 rounded-xl text-on-primary-container">
+      <div class="material-symbols-outlined mb-4 text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">analytics</div>
+      <h3 class="text-headline-sm font-bold mb-2">Growth Metric</h3>
+      <p class="text-body-md opacity-80 mb-6">Staffing levels have increased by 12% this quarter across EMEA regions.</p>
+      <div class="text-display-sm font-black">+12%</div>
+    </div>
+    <div class="bg-surface-container-high p-8 rounded-xl flex flex-col justify-between">
+      <div>
+        <h3 class="text-headline-sm font-bold text-primary mb-2">Policy Updates</h3>
+        <p class="text-body-md text-on-surface-variant">The 2024 Travel Compliance policy has been applied to all active employees in this directory.</p>
+      </div>
+      <a class="mt-6 flex items-center gap-2 text-secondary font-bold hover:underline" href="#">
+        Review Compliance
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+    <div class="bg-surface-container-lowest p-8 rounded-xl border-l-4 border-secondary flex flex-col justify-center">
+      <div class="text-label-md font-bold text-secondary uppercase tracking-widest mb-2">Quick Tip</div>
+      <p class="text-body-md italic text-on-surface-variant">"Use the manager filter to quickly build org-specific travel budgets and approval workflows."</p>
+    </div>
+  </div>
+</main>

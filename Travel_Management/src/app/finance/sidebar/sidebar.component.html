@@ -1,0 +1,92 @@
+<div class="flex min-h-screen bg-background text-on-surface antialiased">
+
+  <!-- SideNavBar Component -->
+  <aside class="fixed left-0 top-0 h-full flex flex-col py-8 px-6 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl h-screen w-72 border-r-0 shadow-[20px_0px_40px_rgba(0,27,60,0.04)] z-50">
+    
+    <div class="mb-12">
+      <h1 class="font-manrope font-black text-2xl text-[#1A365D] dark:text-white uppercase tracking-widest">Sovereign Travel</h1>
+      <p class="font-manrope text-xs font-semibold tracking-widest text-slate-400 mt-1 uppercase">Architectural Concierge</p>
+    </div>
+
+    <nav class="flex-1 space-y-2">
+      <!-- Active State Example -->
+      <a [routerLink]="['/dashboard']" 
+         routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 
+         [routerLinkActiveOptions]="{exact: true}"
+         class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+
+      <a [routerLink]="['./pending-requests']" 
+         routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 
+         [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">flight_takeoff</span>
+        Pending Requests
+      </a>
+
+      <a [routerLink]="['./request-history-finance']" 
+         routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 
+         [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">receipt_long</span>
+        Requests History
+      </a>
+      
+      <a [routerLink]="['./report-snapshots']" 
+         routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 
+         [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">receipt_long</span>
+        Requests Snapshots
+      </a>
+
+      <a [routerLink]="['./profile-finance']" 
+        routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 
+        [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">person</span>
+        Profile
+      </a>
+    </nav>
+
+    <div class="mt-auto space-y-4">      
+      <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+        <button class="w-full flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-error font-manrope text-sm font-semibold tracking-tight text-left" (click)="goToLogin()">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Shell -->
+  <main class="flex-1 ml-72 min-h-screen">
+
+  <!--<app-new-request-form></app-new-request-form>
+  <app-budget-details></app-budget-details>
+<app-travel-requests></app-travel-requests>
+  <app-new-request-form></app-new-request-form>
+<app-bill-submition></app-bill-submition>
+
+<app-pending-approvals></app-pending-approvals>
+
+<app-profile-section></app-profile-section>
+<app-request-history></app-request-history>
+
+-->
+
+    <!-- Canvas Area -->
+    <!-- In Angular, use <router-outlet> here if this layout is persistent, 
+         or place specific dashboard cards directly here -->
+<div class="pt-10 pb-20 px-12 space-y-12 max-w-7xl">
+   <div class="text-slate-500">
+      <router-outlet></router-outlet> <!-- This will load your child components -->
+   </div>
+</div>
+
+  </main>
+  <!-- FAB (Floating Action Button) -->
+  <div class="fixed bottom-10 right-10 z-50">
+    <button class="bg-primary text-on-primary w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+      <span class="material-symbols-outlined">chat_bubble</span>
+    </button>
+  </div>
+</div>

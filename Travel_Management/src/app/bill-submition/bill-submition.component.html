@@ -1,0 +1,215 @@
+<div style="background-color: #f7f9fb; color: #191c1e; min-height: 100vh;">
+  
+  <!-- Main Content -->
+  <main style="max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; padding-top: 1rem; padding-bottom: 5rem;">
+    
+    <!-- Header Section -->
+    <header class="page-header" style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3rem; justify-content: space-between;">
+      <div>
+        <span style="display: inline-flex; align-items: center; padding-left: 0.75rem; padding-right: 0.75rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 9999px; background-color: #cfe5ff; color: #001d34; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;">Corporate Portal</span>
+        <h1 style="font-size: 2.25rem; font-weight: 800; color: #002045; letter-spacing: -0.02em; line-height: 1; margin-bottom: 1rem; font-family: 'Manrope', sans-serif;">Expense Management</h1>
+        <p style="color: #43474e; max-width: 36rem; font-size: 1.125rem; line-height: 1.625;">Log your trip expenses and track reimbursements with our automated reconciliation system.</p>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 0.75rem; background-color: #f2f4f6; padding: 1rem; border-radius: 0.75rem;" class="user-card">
+        <div style="width: 3rem; height: 3rem; border-radius: 50%; overflow: hidden; background-color: #d8dadc;">
+          <img src="assets/user-avatar.jpg" alt="User profile" style="width: 100%; height: 100%; object-fit: cover;"/>
+        </div>
+        <div>
+          <p style="font-size: 0.875rem; font-weight: 700; color: #002045;">Alexander Sterling</p>
+          <p style="font-size: 0.75rem; color: #43474e;">Senior Consultant</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Bento Grid Layout -->
+    <div class="bento-grid" style="display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start;">
+      
+      <!-- Left Column: Summary & Stats -->
+      <div class="left-column" style="width: 100%;">
+        
+        <!-- Total Expenses Card -->
+        <div style="background-color: #1a365d; padding: 2rem; border-radius: 0.75rem; position: relative; overflow: hidden; box-shadow: 0 25px 50px rgba(0, 32, 69, 0.2);" class="total-card">
+          <div style="position: relative; z-index: 1;">
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 0.5rem;">Total Expenses</p>
+            <h2 style="font-size: 2.25rem; font-weight: 800; color: #ffffff; margin-bottom: 1.5rem;">$4,290.45</h2>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #adc7f7;">
+              <span style="font-family: 'Material Symbols Outlined'; font-size: 18px;">flight_takeoff</span>
+              <span style="font-size: 0.75rem; font-weight: 500;">Q3 Tokyo Business Summit</span>
+            </div>
+          </div>
+          <div style="position: absolute; right: -20px; bottom: -20px; opacity: 0.1;">
+            <span style="font-family: 'Material Symbols Outlined'; font-size: 14rem; color: white;">payments</span>
+          </div>
+        </div>
+
+        <!-- Reimbursement Status -->
+        <div style="background-color: #ffffff; padding: 1.5rem; border-radius: 0.75rem; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); border: 1px solid rgba(196, 198, 207, 0.1);" class="status-card">
+          <h3 style="font-size: 0.75rem; font-weight: 700; color: #002045; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em;">Reimbursement Status</h3>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background-color: #61b4fd;"></div>
+                <span style="font-size: 0.875rem; font-weight: 500;">Processing</span>
+              </div>
+              <span style="font-size: 0.75rem; font-weight: 700; color: #43474e;">75% Complete</span>
+            </div>
+            <div style="width: 100%; background-color: #e6e8ea; height: 8px; border-radius: 9999px; overflow: hidden;">
+              <div style="background-color: #00629d; height: 100%; width: 75%; border-radius: 9999px;"></div>
+            </div>
+            <p style="font-size: 0.75rem; color: #43474e; line-height: 1.5; font-style: italic;">Estimated completion: Oct 24, 2023. Our audit team is currently verifying receipt authenticity.</p>
+          </div>
+        </div>
+
+        <!-- Active Trip Context -->
+        <div style="background-color: #f2f4f6; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(196, 198, 207, 0.1);">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <span style="font-family: 'Material Symbols Outlined'; font-size: 24px; color: #00629d;">explore</span>
+            <h3 style="font-size: 0.875rem; font-weight: 700; color: #002045;">Trip Destination</h3>
+          </div>
+          <div style="border-radius: 0.5rem; overflow: hidden; height: 8rem; margin-bottom: 0.75rem;">
+            <img src="assets/tokyo-map.jpg" alt="Tokyo Map" style="width: 100%; height: 100%; object-fit: cover;"/>
+          </div>
+          <p style="font-size: 0.75rem; font-weight: 700; color: #002045; text-transform: uppercase;">Tokyo, Japan</p>
+          <p style="font-size: 0.75rem; color: #43474e;">Oct 12 - Oct 19, 2023</p>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Form & List -->
+      <div class="right-column" style="width: 100%;">
+        
+        <!-- Entry Form -->
+        <section style="background-color: #ffffff; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); border: 1px solid rgba(196, 198, 207, 0.1);">
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: #002045; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-family: 'Material Symbols Outlined'; font-size: 24px; color: #00629d;">add_circle</span>
+            New Expense Entry
+          </h2>
+          
+          <form (ngSubmit)="onAddExpense()" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+              
+              <!-- Category -->
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Expense Category</label>
+                <div style="position: relative;">
+                  <select class="form-select" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; font-weight: 500; outline: none;">
+                    <option value="">Select Category</option>
+                    <option value="travel">Travel &amp; Airfare</option>
+                    <option value="food">Food &amp; Dining</option>
+                    <option value="hotel">Hotel &amp; Lodging</option>
+                    <option value="misc">Miscellaneous</option>
+                  </select>
+
+                </div>
+              </div>
+              
+              <!-- Amount -->
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Amount (USD)</label>
+                <div style="position: relative;">
+                  <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #43474e; font-weight: 700;">$</span>
+                  <input type="number" placeholder="0.00" class="form-input" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem 1rem 1rem 2.5rem; font-size: 0.875rem; font-weight: 500; outline: none; transition: all 0.2s ease;"/>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Upload Area -->
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Proof of Purchase</label>
+              <div (click)="triggerUpload()" 
+                   class="upload-area"
+                   style="border: 2px dashed #c4c6cf; border-radius: 0.75rem; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f2f4f6; cursor: pointer; transition: all 0.2s ease;">
+                <div (click)="triggerUpload()" style="width: 3rem; height: 3rem; border-radius: 50%; background-color: #cfe5ff; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; transition: transform 0.2s ease;">
+                  <span style="font-family: 'Material Symbols Outlined'; font-size: 24px; color: #001d34;">cloud_upload</span>
+                </div>
+                <p style="font-size: 0.875rem; font-weight: 700; color: #002045;">Click to upload or drag and drop</p>
+                <p style="font-size: 0.75rem; color: #43474e; margin-top: 0.25rem;">PDF, PNG, JPG or HEIC (Max. 10MB)</p>
+              </div>
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end;">
+              <button type="submit" 
+                      class="btn-primary"
+                      style="background-color: #002045; color: #ffffff; padding-left: 2rem; padding-right: 2rem; padding-top: 1rem; padding-bottom: 1rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 6px rgba(0, 32, 69, 0.2); display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-family: 'Material Symbols Outlined'; font-size: 18px;">save</span>
+                Add Expense
+              </button>
+            </div>
+            
+          </form>
+        </section>
+
+        <!-- Recent List -->
+        <section style="background-color: #ffffff; border-radius: 0.75rem; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); border: 1px solid rgba(196, 198, 207, 0.1); overflow: hidden;">
+          <div style="padding: 1.5rem; border-bottom: 1px solid #eceef0; display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="font-size: 0.75rem; font-weight: 700; color: #002045; text-transform: uppercase; letter-spacing: 0.1em;">Pending Submission</h2>
+            <span style="font-size: 0.75rem; font-weight: 500; color: #43474e;">{{ pendingExpenses.length }} Items Found</span>
+          </div>
+          
+          <div style="overflow-x: auto;">
+            <table class="expense-table" style="width: 100%; text-align: left; border-collapse: collapse;">
+              <thead style="background-color: #f2f4f6;">
+                <tr>
+                  <th style="padding: 1rem; font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase;">Date</th>
+                  <th style="padding: 1rem; font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase;">Category</th>
+                  <th style="padding: 1rem; font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase;">Description</th>
+                  <th style="padding: 1rem; font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; text-align: right;">Amount</th>
+                  <th style="padding: 1rem; font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; text-align: center;">Receipt</th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                <tr *ngFor="let expense of pendingExpenses; let i = index" 
+                    class="table-row"
+                    style="transition: background-color 0.2s ease;">
+                  <td style="padding: 1.25rem; font-size: 0.875rem; color: #191c1e; font-weight: 500;">{{ expense.date }}</td>
+                  <td style="padding: 1.25rem;">
+                    <span [style.backgroundColor]="'#eff6ff'" 
+                          [style.color]="'#00629d'" 
+                          style="font-size: 0.625rem; font-weight: 700; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.125rem; padding-bottom: 0.125rem; border-radius: 9999px; text-transform: uppercase; display: inline-block;">{{ expense.category }}</span>
+                  </td>
+                  <td style="padding: 1.25rem; font-size: 0.875rem; color: #43474e;">{{ expense.description }}</td>
+                  <td style="padding: 1.25rem; font-size: 0.875rem; font-weight: 700; color: #002045; text-align: right;">${{ expense.amount | number:'1.2-2' }}</td>
+                  <td style="padding: 1.25rem; text-align: center;">
+                    <span (click)="onViewReceipt(i)" 
+                          class="receipt-icon"
+                          style="font-family: 'Material Symbols Outlined'; font-size: 20px; color: #00629d; cursor: pointer;"
+                          title="View Receipt">description</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Action Footer -->
+          <div style="padding: 1.5rem; background-color: #f2f4f6; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-family: 'Material Symbols Outlined'; font-size: 18px; color: #ba1a1a;">report</span>
+              <p style="font-size: 0.75rem; color: #43474e;">Unsubmitted expenses will be cleared after 30 days.</p>
+            </div>
+            <button (click)="onSubmitReport()" 
+                    class="btn-link"
+                    style="color: #00629d; font-weight: 700; font-size: 0.875rem; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
+              Submit Report
+              <span style="font-family: 'Material Symbols Outlined'; font-size: 18px;">arrow_forward</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Footer / Help -->
+    <footer style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid rgba(196, 198, 207, 0.1); text-align: center;">
+      <p style="font-size: 0.75rem; color: #43474e; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em;">Sovereign Travel Expense Management System v4.2</p>
+      <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 2rem;" class="footer-links">
+        <a href="#" class="footer-link" style="font-size: 0.75rem; font-weight: 700; color: #002045; text-decoration: none;">Policy Guide</a>
+        <a href="#" class="footer-link" style="font-size: 0.75rem; font-weight: 700; color: #002045; text-decoration: none;">Help Center</a>
+        <a href="#" class="footer-link" style="font-size: 0.75rem; font-weight: 700; color: #002045; text-decoration: none;">Contact Auditor</a>
+      </div>
+    </footer>
+
+  </main>
+</div>

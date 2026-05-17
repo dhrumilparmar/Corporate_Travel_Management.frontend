@@ -1,0 +1,81 @@
+<nav style="position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 50; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 20px 40px rgba(0, 27, 60, 0.08);" class="navbar">
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding-left: 3rem; padding-right: 3rem; padding-top: 1.25rem; padding-bottom: 1.25rem; max-width: 1536px; margin-left: auto; margin-right: auto;">
+    
+    <!-- Logo & Main Links -->
+    <div style="display: flex; align-items: center; gap: 3rem;">
+      <span style="font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; color: #1e3a8a; font-family: 'Manrope', sans-serif;">Sovereign Traveler</span>
+      
+      <div class="nav-links" style="display: none; align-items: center; gap: 2rem;">
+        <!-- Using routerLinkActive to highlight the current page -->
+        <a routerLink="/dashboard" 
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{ exact: true }"
+           class="nav-link"
+           style="font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 2px solid transparent; padding-bottom: 0.25rem; transition: all 0.2s ease; color: #64748b; text-decoration: none;">
+          Dashboard
+        </a>
+        
+        <a routerLink="/requests" 
+           routerLinkActive="active-link"
+           class="nav-link"
+           style="font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 2px solid transparent; padding-bottom: 0.25rem; transition: all 0.2s ease; color: #64748b; text-decoration: none;">
+          Travel Requests
+        </a>
+        
+        <a routerLink="/create-request" 
+           routerLinkActive="active-link"
+           class="nav-link"
+           style="font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 2px solid transparent; padding-bottom: 0.25rem; transition: all 0.2s ease; color: #64748b; text-decoration: none;">
+          Create Request
+        </a>
+        
+        <a routerLink="/expenses" 
+           routerLinkActive="active-link"
+           class="nav-link"
+           style="font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 2px solid transparent; padding-bottom: 0.25rem; transition: all 0.2s ease; color: #64748b; text-decoration: none;">
+          Expenses
+        </a>
+        
+        <a routerLink="/profile" 
+           routerLinkActive="active-link"
+           class="nav-link"
+           style="font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 2px solid transparent; padding-bottom: 0.25rem; transition: all 0.2s ease; color: #64748b; text-decoration: none;">
+          Profile
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Side Actions -->
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <!-- Search -->
+      <div class="search-container">
+        <span class="material-symbols-outlined icon-btn" style="color: #43474e; cursor: pointer; padding: 0.5rem; transition: all 0.2s ease;">search</span>
+      </div>
+
+      <!-- Notifications -->
+      <div class="notification-container" style="position: relative;">
+        <span class="material-symbols-outlined icon-btn" style="color: #43474e; cursor: pointer; padding: 0.5rem; transition: all 0.2s ease;">notifications</span>
+        <span style="position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background-color: #00629d; border-radius: 50%;"></span>
+      </div>
+
+      <!-- User Profile -->
+      <div style="display: flex; align-items: center; gap: 0.75rem; padding-left: 1rem; border-left: 1px solid rgba(196, 198, 207, 0.3);">
+        <!-- IMPORTANT: Replace src with your local asset path -->
+        <img alt="Executive user profile picture" 
+             style="width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);" 
+             src="assets/user-avatar.jpg"/>
+        
+        <div class="user-info" style="display: none;">
+          <p style="font-size: 0.75rem; font-weight: 700; font-family: 'Manrope', sans-serif; color: #002045; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1;">James Harrington</p>
+          <p style="font-size: 0.625rem; color: #43474e; text-transform: uppercase; letter-spacing: 0.025em; line-height: 1;">Executive VP</p>
+        </div>
+        
+        <!-- Logout Icon -->
+        <span class="material-symbols-outlined icon-btn logout-icon" 
+              title="Logout"
+              (click)="onLogout()"
+              style="color: #64748b; transform: scale(0.98); cursor: pointer; transition: all 0.2s ease;">logout</span>
+      </div>
+    </div>
+  </div>
+</nav>

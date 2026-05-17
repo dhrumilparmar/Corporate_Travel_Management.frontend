@@ -1,0 +1,24 @@
+/* 
+  Ensure your project's main style configuration (e.g., tailwind.config.js and styles.scss)
+  has Tailwind CSS and the required fonts ('Inter', 'Manrope') set up.
+*/
+
+// These styles were in the <head> of the original HTML.
+// They are good candidates for a global stylesheet (styles.scss) but are included here for component encapsulation.
+:host {
+  font-family: 'Inter', sans-serif;
+  color: #191c1e;
+}
+
+.font-headline {
+  font-family: 'Manrope', sans-serif;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+
+// Tonal layering custom classes
+.architectural-shadow {
+  box-shadow: 0px 20px 40px rgba(0, 27, 60, 0.08);
+}

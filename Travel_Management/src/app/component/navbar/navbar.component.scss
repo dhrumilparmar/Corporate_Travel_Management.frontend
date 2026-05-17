@@ -1,0 +1,60 @@
+// top-navbar.component.scss
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Active link state (set by routerLinkActive)
+.active-link {
+  border-bottom-color: #4299E1 !important;
+  color: #1e3a8a !important;
+  
+  .dark & {
+    color: white !important;
+  }
+}
+
+.nav-links {
+  @media (min-width: 768px) {
+    display: flex !important;
+  }
+}
+
+.nav-link:hover {
+  color: #1e3a8a !important;
+  
+  .dark & {
+    color: #60A5FA !important;
+  }
+}
+
+.icon-btn {
+  &:hover {
+    background-color: rgba(248, 250, 252, 0.5) !important;
+    border-radius: 0.375rem !important;
+    
+    .dark & {
+      background-color: rgba(30, 41, 59, 0.5) !important;
+    }
+  }
+}
+
+.logout-icon {
+  &:active {
+    opacity: 0.8 !important;
+  }
+}
+
+.user-info {
+  @media (min-width: 1024px) {
+    display: block !important;
+  }
+}
+
+.search-container {
+  position: relative;
+}
+
+.notification-container {
+  position: relative;
+}

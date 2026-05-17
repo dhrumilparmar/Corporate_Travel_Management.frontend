@@ -1,0 +1,39 @@
+// budget-details.component.scss
+:host {
+  display: block;
+  width: 100%;
+}
+
+.upload-area:hover {
+  background-color: #eceef0 !important;
+}
+
+.upload-area:hover div {
+  transform: scale(1.1);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .main-grid {
+    grid-template-columns: 7fr 5fr !important;
+  }
+  
+  .form-column {
+    padding-right: 2rem !important;
+  }
+  
+  .fields-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .fields-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}

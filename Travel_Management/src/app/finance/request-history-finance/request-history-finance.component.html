@@ -1,0 +1,169 @@
+<div class="max-w-[1440px] mx-auto px-12 py-16">
+  <!-- Editorial Header Section -->
+  <header class="mb-12 flex items-end justify-between border-b border-outline-variant/20 pb-8">
+    <div class="space-y-2">
+      <nav class="flex items-center gap-2 text-on-surface-variant mb-4">
+        <span class="text-xs font-semibold tracking-widest uppercase font-label">Enterprise</span>
+        <span class="material-symbols-outlined text-sm">chevron_right</span>
+        <span class="text-xs font-semibold tracking-widest uppercase font-label text-primary">Travel Management</span>
+      </nav>
+      <h1 class="text-4xl font-black text-primary tracking-tighter leading-none">Request History</h1>
+      <p class="text-on-surface-variant font-body max-w-lg mt-4 text-lg">
+        Comprehensive ledger of travel authorizations and expense reconciliations for the current fiscal year.
+      </p>
+    </div>
+    <div class="flex flex-col items-end gap-2">
+      <span class="text-primary font-headline font-bold text-3xl">{{ totalLogs }}</span>
+      <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Logs</span>
+    </div>
+  </header>
+
+  <!-- Dynamic Filter Bar -->
+  <section class="bg-surface-container-low p-8 rounded-xl mb-8 flex flex-wrap items-end gap-6 shadow-[0px_20px_40px_rgba(0,27,60,0.03)]">
+    <!-- Employee Search -->
+    <div class="flex-1 min-w-[280px]">
+      <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 font-label">Employee</label>
+      <div class="relative group">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+        <input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border-none rounded-lg font-body focus:ring-2 focus:ring-secondary/20 transition-all text-on-surface placeholder:text-outline/50"
+               placeholder="Search by name or department..."
+               type="text"/>
+      </div>
+    </div>
+
+    <!-- Status Dropdown -->
+    <div class="w-64">
+      <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 font-label">Status</label>
+      <div class="relative group">
+        <select class="w-full appearance-none px-4 py-4 bg-surface-container-lowest border-none rounded-lg font-body focus:ring-2 focus:ring-secondary/20 transition-all text-on-surface cursor-pointer">
+          <option>All Statuses</option>
+          <option>Approved</option>
+          <option>Rejected</option>
+          <option>Completed</option>
+          <option>Reimbursed</option>
+        </select>
+        <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+      </div>
+    </div>
+
+    <!-- Date Range -->
+    <div class="w-72">
+      <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 font-label">Date Range</label>
+      <div class="relative group">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">calendar_today</span>
+        <input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border-none rounded-lg font-body focus:ring-2 focus:ring-secondary/20 transition-all text-on-surface"
+               placeholder="Select dates..."
+               type="text"/>
+      </div>
+    </div>
+
+    <!-- Clear Filters -->
+    <button class="px-6 py-4 text-primary font-bold text-sm font-headline hover:bg-surface-container-highest rounded-lg transition-all flex items-center gap-2"
+            (click)="clearFilters()">
+      <span class="material-symbols-outlined text-lg">filter_alt_off</span>
+      Clear
+    </button>
+  </section>
+
+  <!-- Elegant Data Table Container -->
+  <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(0,27,60,0.05)] overflow-hidden">
+    <table class="w-full border-collapse text-left">
+      <thead>
+        <tr class="bg-primary text-white">
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Employee</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Destination & Dates</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Final Status</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase text-right">Decision Date</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-surface-container">
+        <tr *ngFor="let request of paginatedRequests"
+            class="group hover:bg-surface-container-low transition-colors cursor-pointer">
+          <td class="px-8 py-6">
+            <div class="flex items-center gap-4">
+              <img [src]="request.employee.image"
+                   alt="Employee Profile"
+                   class="w-12 h-12 rounded-full object-cover"
+                   data-alt="portrait of a professional man in a tailored charcoal suit with a confident expression in a bright studio">
+              <div>
+                <p class="font-headline font-extrabold text-primary">{{ request.employee.name }}</p>
+                <p class="text-xs text-on-surface-variant font-label">{{ request.employee.title }}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-8 py-6">
+            <div class="flex flex-col">
+              <span class="font-bold text-primary font-headline">{{ request.destination.location }}</span>
+              <span class="text-sm text-on-surface-variant font-body">{{ request.destination.dates }}</span>
+            </div>
+          </td>
+          <td class="px-8 py-6">
+            <span class="px-4 py-1.5 rounded-full text-xs font-bold tracking-tight flex w-fit items-center gap-1.5"
+                  [ngClass]="{
+                    'bg-green-100 text-green-700': request.status.type === 'approved',
+                    'bg-red-100 text-red-700': request.status.type === 'rejected',
+                    'bg-blue-100 text-blue-700': request.status.type === 'completed',
+                    'bg-cyan-100 text-cyan-700': request.status.type === 'reimbursed'
+                  }">
+              <span class="w-1.5 h-1.5 rounded-full"
+                    [ngClass]="{
+                      'bg-green-600 animate-pulse': request.status.type === 'approved',
+                      'bg-red-600': request.status.type === 'rejected',
+                      'bg-blue-600': request.status.type === 'completed',
+                      'bg-cyan-600': request.status.type === 'reimbursed'
+                    }"></span>
+              {{ request.status.label }}
+            </span>
+          </td>
+          <td class="px-8 py-6 text-right">
+            <span class="text-on-surface-variant font-medium">{{ request.status.date }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination/Footer -->
+    <footer class="bg-surface-container-low px-8 py-6 flex items-center justify-between">
+      <p class="text-sm text-on-surface-variant font-body">
+        Showing <span class="font-bold text-primary">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{ (currentPage * itemsPerPage) > requests.length ? requests.length : (currentPage * itemsPerPage) }}</span> of {{ totalLogs }} requests
+      </p>
+      <div class="flex items-center gap-2">
+        <button class="p-2 rounded-lg hover:bg-surface-container-highest transition-colors"
+                (click)="prevPage()">
+          <span class="material-symbols-outlined text-primary">chevron_left</span>
+        </button>
+        <div class="flex items-center gap-1">
+          <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold">1</span>
+          <span *ngIf="totalPages > 1" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container-highest text-primary text-xs font-bold cursor-pointer transition-colors"
+                (click)="goToPage(2)">2</span>
+          <span *ngIf="totalPages > 2" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container-highest text-primary text-xs font-bold cursor-pointer transition-colors"
+                (click)="goToPage(3)">3</span>
+          <span *ngIf="totalPages > 3" class="text-on-surface-variant px-1">...</span>
+          <span *ngIf="totalPages > 4" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container-highest text-primary text-xs font-bold cursor-pointer transition-colors"
+                (click)="goToPage(totalPages)">{{ totalPages }}</span>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-surface-container-highest transition-colors"
+                (click)="nextPage()">
+          <span class="material-symbols-outlined text-primary">chevron_right</span>
+        </button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- Signature "Trip Pulse" for Active Requests -->
+  <aside class="mt-12 flex flex-col items-center">
+    <div class="bg-white/40 backdrop-blur-xl p-4 rounded-full flex items-center gap-4 px-8 border border-white/20 shadow-lg">
+      <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+      <span class="text-sm font-bold text-primary font-headline">6 Travel Requests Currently in Transit</span>
+      <div class="flex -space-x-2">
+        <img class="w-6 h-6 rounded-full ring-2 ring-white"
+             data-alt="small circular profile avatar of woman"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpPwCq7u-gY-yDMD56j4MNQWm-5C2_diLo-Up_ujwylRd7HKZ4XbeeN0HkPY_ahIUNJG8c3McH8x4cTi1Y3A859hjcdAdl53AwUsW2HGEmzb-IjFxXMhcr6S_P5gEDljDANP6fJuMMtDEhaogKYQDmGfTobIR4p8TzMk3fC7McJPAKCYLQuYqVduwFH-uQO05jAyGyWwTfYLqGzhsW3NfjOGve6ZdNIKCZkCttqPW3GBmjKkaFgDiQJHBTVUzHnU5UnaB_KHfrkcU"/>
+        <img class="w-6 h-6 rounded-full ring-2 ring-white"
+             data-alt="small circular profile avatar of man"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcdf8DvsCwoc5-Kjc3y4qdFcQOHcHh1gVS5QPs4Evi3e0G0CCXrT5JlJ5wlcvbGTUtoKyNSpYlszzRLlbgVoBQLGjDXmCEEK9ixzdfwj9AcWBNBP7LuwSmzmOVX2kKHj5zXiGRexcKnTP1n4-qBSqISTAS0V7ftaJm5OS-xHyJVCNKUNWiQwwbgujdDE6-4FO7UsdWZAtP3pQunHomPv-D5CO0m6rFDXH2tLNWJjY3ofgZM1Yrsfrh6lh2xJfJJUpjgb6lm0edVmk"/>
+        <div class="w-6 h-6 rounded-full ring-2 ring-white bg-secondary-container text-[8px] flex items-center justify-center font-bold text-white">+4</div>
+      </div>
+    </div>
+  </aside>
+</div>
