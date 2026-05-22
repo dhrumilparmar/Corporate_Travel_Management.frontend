@@ -25,8 +25,5 @@ export class AdminSidebarComponent {
     { label: 'All Employee', path: 'all-employees',icon:'people' },
     { label: 'Expenses', path: 'expenses',icon:'receipt_long' },
     { label: 'Profile',path: 'profile',icon:'person'},
-
   ];
-
-
 }

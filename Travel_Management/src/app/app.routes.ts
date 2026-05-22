@@ -20,6 +20,7 @@ import { SidebarComponentFinance } from './finance/sidebar/sidebar.component';
 import { AddEmployeeComponent } from './Admin/add-employee-component/add-employee-component.component';
 import { AdminSidebarComponent } from './Admin/sidebar/sidebar.component';
 import { AllEmployeeComponent } from './Admin/all-employee/all-employee.component';
+import { TravelRequestComponent } from './travel-request-new/travel-request-new.component';
 
 export const routes: Routes = [
 {
@@ -27,7 +28,7 @@ export const routes: Routes = [
   component: SidebarComponent,
   children: [
     { path: '', redirectTo: 'travel-requests', pathMatch: 'full' },
-    { path: 'new-request', component: NewRequestComponent },
+    { path: 'new-request', component: TravelRequestComponent },
     { path: 'new-request/budget-details', component: BudgetDetailsComponent },
     { path: 'travel-requests', component: TravelRequestsComponent },
     { path: 'expenses', component: BillSubmitionComponent },
