@@ -103,7 +103,7 @@
               <span class="bg-surface-container px-3 py-1 rounded-full text-xs font-medium text-on-surface">{{ emp.department }}</span>
             </td>
             <td class="px-6 py-5 text-body-md">{{ emp.role }}</td>
-            <td class="px-6 py-5 text-body-md">{{ emp.manager }}</td>
+            <td class="px-6 py-5 text-body-md">{{ emp.managerName }}</td>
             <td class="px-6 py-5">
               <div class="flex justify-center">
                 <span class="flex items-center gap-2 px-3 py-1 font-semibold text-xs rounded-full" [ngClass]="getStatusClass(emp.status)">
@@ -117,7 +117,7 @@
             <td class="px-6 py-5">
               <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 <!-- Update Button -->
-                <button (click)="onUpdateEmployee(emp)" class="p-2 rounded-lg hover:bg-surface-container text-primary transition-colors" title="Update">
+                <button (click)="onUpdateEmployee(emp.id)" class="p-2 rounded-lg hover:bg-surface-container text-primary transition-colors" title="Update">
                   <span class="material-symbols-outlined text-lg">edit</span>
                 </button>
                 <!-- Delete Button -->

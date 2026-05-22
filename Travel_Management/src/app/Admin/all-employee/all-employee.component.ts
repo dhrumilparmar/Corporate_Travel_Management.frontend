@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AdminServiceService } from '../../service/admin-service.service';
 import {  Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {AddEmployeeComponent} from '../add-employee-component/add-employee-component.component';
+
 export interface Employee {
   id: string;
   name: string;
@@ -20,7 +22,7 @@ export interface Employee2 {
   email: string;
   role: string;
   department: string;
-  manager: string;
+  managerName: string;
   status: 'ACTIVE' | 'INACTIVE';
   avatar?: string;
 }
@@ -30,7 +32,8 @@ export interface Employee2 {
   imports: [CommonModule, FormsModule,
         RouterOutlet,       // ✅ needed for <router-outlet>
         RouterLink,         // ✅ needed for [routerLink]
-        RouterLinkActive
+        RouterLinkActive,
+        AddEmployeeComponent
   ],
   templateUrl: './all-employee.component.html',
   styleUrl: './all-employee.component.scss'
@@ -64,7 +67,7 @@ employeesName:any[]=[];
           department: emp.department?.departmentName || 'N/A',
           role: emp.role?.roleName || 'N/A',
           status: emp.status,
-          manager: emp.manager?.fullname || 'N/A',
+          managerName: emp.managerName || 'N/A',
           avatar: emp.avatarUrl || '' // Assuming the API provides an avatar URL
         }));
       }
@@ -80,7 +83,7 @@ employeesName:any[]=[];
   }
 
   get uniqueManagers(): string[] {
-    return ['All Managers', ...Array.from(new Set(this.employee2.map(e => e.manager)))];
+    return ['All Managers', ...Array.from(new Set(this.employee2.map(e => e.managerName)))];
   }
 
   get filteredEmployees(): Employee2[] {
@@ -133,11 +136,10 @@ employeesName:any[]=[];
   onExportCSV(): void {
     console.log('Exporting CSV...');
   }
-
+  
   onAddEmployee(): void {
     console.log('Navigating to Add Employee...');
   }
-
   resetFilters(): void {
     this.searchQuery = '';
     this.selectedRole = 'All Roles';
@@ -145,9 +147,21 @@ employeesName:any[]=[];
     this.currentPage = 1;
   }
 
+  onUpdateEmployee(employeeID: any): void {
+    console.log('Updating employee:', employeeID);
+    // Fetch employee details, then navigate to the AddEmployee form with the employee data in navigation state
+    this.adminService.getEmployeeById(employeeID).subscribe({
+      next: (employee) => {
+        console.log('Retrieved employee:', employee);
+        this.router.navigate(['/admin/add-employee'], { state: { employee: employee, canUpdateEmployee: true } });
+      },
+      error: (error) => {
+        console.error('Failed to retrieve employee:', error);
+        // Fallback: still navigate but without full payload
+        this.router.navigate(['/admin/add-employee'], { state: { employeeID: employeeID, canUpdateEmployee: true } });
+      }
+    });
 
-  onUpdateEmployee(emp: any): void {
-    console.log('Updating employee:', emp);
     // Add your navigation or modal logic here
     // e.g., this.router.navigate(['/edit-employee', emp.id]);
   }
@@ -161,7 +175,7 @@ employeesName:any[]=[];
           this.getEmployeesAll();
         },
         error: (error) => {
-          console.error('Failed to delete employee:', error);
+          alert('Failed to delete employee: It May have some Travel Requests');
         }
       });
     }
