@@ -83,20 +83,20 @@
               </td>
               <td style="padding: 1.5rem; text-align: right;">
                 <div style="display: flex; justify-content: flex-end; gap: 1rem;">
-                  <a (click)="onViewRequest(request.id)" 
+                  <a (click)="onViewRequest(request.travelReqID)" 
                      style="color: #00629d; font-weight: 600; font-size: 0.875rem; text-decoration: none; cursor: pointer;" 
                      class="action-link">View</a>
                   
-                  <a (click)="onEditRequest(request.id)" 
-                     *ngIf="request.status !== 'Submitted' && request.status !== 'Finance Approved' && request.status !== 'Manager Approved'"
-                     style="color: #00629d; font-weight: 600; font-size: 0.875rem; text-decoration: none; cursor: pointer;" 
-                     class="action-link">Edit</a>
+                  <a (click)="onEditRequest(request)" 
+                    *ngIf="isEditable(request.status)"
+                    style="color: #00629d; font-weight: 600; font-size: 0.875rem; text-decoration: none; cursor: pointer;" 
+                    class="action-link">Edit</a>
                   
-                  <a (click)="onDeleteRequest(request.id)" 
-                     *ngIf="request.status === 'Draft' || request.status === 'Rejected'"
-                     style="color: rgba(186, 26, 26, 0.7); font-size: 20px; cursor: pointer; transition: color 0.2s ease;" 
-                     class="delete-icon"
-                     title="Delete">
+                  <a (click)="onDeleteRequest(request.travelReqID)" 
+                    *ngIf="canDelete(request.status)"
+                    style="color: rgba(186, 26, 26, 0.7); font-size: 20px; cursor: pointer; transition: color 0.2s ease;" 
+                    class="delete-icon"
+                    title="Delete">
                     <span style="font-family: 'Material Symbols Outlined';">delete</span>
                   </a>
                 </div>
