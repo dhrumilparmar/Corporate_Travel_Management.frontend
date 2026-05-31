@@ -86,31 +86,47 @@
             New Expense Entry
           </h2>
           
-          <form (ngSubmit)="onAddExpense()" style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <form #expenseForm="ngForm" (ngSubmit)="onAddExpense(expenseForm)" style="display: flex; flex-direction: column; gap: 1.5rem;">
             
             <div class="form-row" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
               
+              <!-- Date -->
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Date</label>
+                <div style="position: relative;">
+                  <input type="date" name="date" ngModel required class="form-input" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; font-weight: 500; outline: none; transition: all 0.2s ease;"/>
+                </div>
+              </div>
+
               <!-- Category -->
               <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Expense Category</label>
                 <div style="position: relative;">
-                  <select class="form-select" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; font-weight: 500; outline: none;">
+                  <select name="category" ngModel required class="form-select" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; font-weight: 500; outline: none;">
                     <option value="">Select Category</option>
-                    <option value="travel">Travel &amp; Airfare</option>
-                    <option value="food">Food &amp; Dining</option>
-                    <option value="hotel">Hotel &amp; Lodging</option>
-                    <option value="misc">Miscellaneous</option>
+                    <option value="1">Travel &amp; Airfare</option>
+                    <option value="2">Food &amp; Dining</option>
+                    <option value="3">Hotel &amp; Lodging</option>
+                    <option value="4">Miscellaneous</option>
                   </select>
 
                 </div>
               </div>
               
+              <!-- Description -->
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Description</label>
+                <div style="position: relative;">
+                  <input type="text" name="description" ngModel required placeholder="Expense Description" class="form-input" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; font-weight: 500; outline: none; transition: all 0.2s ease;"/>
+                </div>
+              </div>
+
               <!-- Amount -->
               <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <label style="font-size: 0.75rem; font-weight: 700; color: #43474e; text-transform: uppercase; letter-spacing: 0.05em;">Amount (USD)</label>
                 <div style="position: relative;">
                   <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #43474e; font-weight: 700;">$</span>
-                  <input type="number" placeholder="0.00" class="form-input" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem 1rem 1rem 2.5rem; font-size: 0.875rem; font-weight: 500; outline: none; transition: all 0.2s ease;"/>
+                  <input type="number" name="amount" ngModel required placeholder="0.00" class="form-input" style="width: 100%; background-color: #eceef0; border: none; border-radius: 0.5rem; padding: 1rem 1rem 1rem 2.5rem; font-size: 0.875rem; font-weight: 500; outline: none; transition: all 0.2s ease;"/>
                 </div>
               </div>
 
@@ -168,16 +184,11 @@
                   <td style="padding: 1.25rem;">
                     <span [style.backgroundColor]="'#eff6ff'" 
                           [style.color]="'#00629d'" 
-                          style="font-size: 0.625rem; font-weight: 700; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.125rem; padding-bottom: 0.125rem; border-radius: 9999px; text-transform: uppercase; display: inline-block;">{{ expense.category }}</span>
+                          style="font-size: 0.625rem; font-weight: 700; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.125rem; padding-bottom: 0.125rem; border-radius: 9999px; text-transform: uppercase; display: inline-block;">{{ getCategoryLabel(expense.categoryID) }}</span>
                   </td>
                   <td style="padding: 1.25rem; font-size: 0.875rem; color: #43474e;">{{ expense.description }}</td>
                   <td style="padding: 1.25rem; font-size: 0.875rem; font-weight: 700; color: #002045; text-align: right;">${{ expense.amount | number:'1.2-2' }}</td>
-                  <td style="padding: 1.25rem; text-align: center;">
-                    <span (click)="onViewReceipt(i)" 
-                          class="receipt-icon"
-                          style="font-family: 'Material Symbols Outlined'; font-size: 20px; color: #00629d; cursor: pointer;"
-                          title="View Receipt">description</span>
-                  </td>
+                  <td style="padding: 1.25rem; font-size: 0.875rem; color: #43474e; text-align: center;">{{ expense.receipt ? 'Yes' : 'No' }}</td>
                 </tr>
               </tbody>
             </table>
