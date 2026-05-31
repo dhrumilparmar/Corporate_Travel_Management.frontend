@@ -22,7 +22,28 @@ export class AdminServiceService {
 
   private updateReq = 'http://localhost:8080/travelrequest/updateRequest';
 
+  private getAllFinanceApproved = 'http://localhost:8080/travelrequest/expenseList';
 
+
+  private addExpenseUrl = 'http://localhost:8080/travelrequest/expenses';
+
+  //manger
+
+  private getAllTrReqViewUrl= 'http://localhost:8080/rest/manager/{managerId}/pending-requests';
+  
+  getTravelReqView(managerId: any): Observable<any> {
+    return this.http.get<any>(`${this.getAllTrReqViewUrl.replace('{managerId}', managerId)}`);
+  }
+
+
+  private approveReqUrl = 'http://localhost:8080/rest/manager/process-approval';
+
+  approveRequest(approvalData: any): Observable<any> {
+    return this.http.post<any>(this.approveReqUrl, approvalData);
+  }
+
+
+  //EMPLOYYEE N travelrequest
   updateTravelReq(updatedata: any): Observable<any> {
     return this.http.put<any>(`${this.updateReq}`, updatedata);
   }
@@ -62,4 +83,36 @@ export class AdminServiceService {
   getManagers(): Observable<any> {
     return this.http.get<any>(`${this.getAllManagers}`);
   }
+
+
+  getAllFinanceApprovedExpense(employeeid: any): Observable<any> {
+    return this.http.get<any>(`${this.getAllFinanceApproved}/${employeeid}`);
+  }
+
+  saveExpenseById(bills: any): Observable<any>{
+    return this.http.post<any>(`${this.addExpenseUrl}`, bills);
+  }
+
+
+  //finance
+
+
+  private getAllTrReqFinanceUrl = 'http://localhost:8080/rest/finance/manager-approved-pending';
+
+  getAllManagerApprovedReq(): Observable<any> {
+    return this.http.get<any>(`${this.getAllTrReqFinanceUrl}`);
+  }
+
+  private processFinanceReqUrl = 'http://localhost:8080/rest/finance/process-approval';
+
+  processFinanceRequest(requestData: any): Observable<any> {
+    return this.http.post<any>(`${this.processFinanceReqUrl}`, requestData);
+  }
+
+  private getAllTrReqFinanceApprovedUrl = 'http://localhost:8080/rest/finance/AllApprovedReq';
+  getAllFinanceApprovedReq(financeId: any): Observable<any> {
+    return this.http.get<any>(`${this.getAllTrReqFinanceApprovedUrl}/${financeId}`);
+  }
+
+  
 }
