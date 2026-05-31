@@ -17,7 +17,7 @@ export class PendingApprovalsComponent {
 
   ALlrequests: any[] = [];
   hasNoRequests: boolean = true;
-  currentManagerID = 60;
+  currentManagerID = Number(localStorage.getItem('employeeId')) ;
 
   // Add this property to store the detailed request data
   detailedRequests: any[] = [];

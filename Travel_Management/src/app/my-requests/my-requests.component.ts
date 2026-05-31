@@ -23,7 +23,7 @@ export class TravelRequestsComponent {
 
   employeesTravelReq:any[]=[];
 
-  current_employeeID=59;
+  current_employeeID= Number(localStorage.getItem('employeeId')) ;
   constructor(private router: Router,  private adminService: AdminServiceService) {}
 
     ngOnInit(){

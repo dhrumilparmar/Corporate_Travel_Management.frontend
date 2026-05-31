@@ -12,6 +12,15 @@ interface RequestHistoryRow {
   policyStatus: string;
   managerApprovalStatus: string;
   status: string;
+  destination: string;
+  startTravel: string;
+  endTravel: string;
+  purpose: string;
+  remarks: string;
+  action: string;
+  approvalLevel: string;
+  approvedDate: string;
+  travelReqID: number;
 }
 
 @Component({
@@ -34,8 +43,9 @@ export class RequestHistoryComponent implements OnInit {
     this.getAllManagerApprovedReq();
   }
 
+  employeeid = Number(localStorage.getItem('employeeId')) ;
   getAllManagerApprovedReq(): void {
-    this.adminService.getAllManagerApprovedReq().subscribe({
+    this.adminService.getAllManagerReq(this.employeeid).subscribe({
       next: (data) => {
         const responseData = Array.isArray(data) ? data : data ? [data] : [];
 
@@ -43,14 +53,23 @@ export class RequestHistoryComponent implements OnInit {
 
         this.requests = responseData.map((req: any) => ({
           requestCode: req.requestCode ?? 'N/A',
-          employeeName: req.employeeName ?? 'N/A',
+          employeeName: (req.employeeName ?? '').trim() || 'N/A',
           departmentName: req.departmentName ?? 'N/A',
-          budgetAmount: Number(req.budgetAmount ?? 0),
+          budgetAmount: Number(req.budget ?? req.budgetAmount ?? 0),
           currency: req.currency ?? 'N/A',
           policyViolation: Boolean(req.policyViolation),
           policyStatus: req.policyStatus ?? 'Unknown',
-          managerApprovalStatus: req.managerApprovalStatus ?? 'Pending',
-          status: req.status ?? 'Unknown'
+          managerApprovalStatus: req.managerApprovalStatus ?? req.action ?? 'Pending',
+          status: req.status ?? 'Unknown',
+          destination: req.destination ?? 'N/A',
+          startTravel: req.startTravel ?? 'N/A',
+          endTravel: req.endTravel ?? 'N/A',
+          purpose: req.purpose ?? 'N/A',
+          remarks: req.remarks ?? 'N/A',
+          action: req.action ?? 'N/A',
+          approvalLevel: req.approvalLevel ?? 'N/A',
+          approvedDate: req.approvedDate ?? 'N/A',
+          travelReqID: req.travelReqID ?? 0
         }));
         
         this.totalLogs = this.requests.length;

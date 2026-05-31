@@ -28,5 +28,10 @@ export class SidebarComponent {
 
   ];
 
+  logout(): void {
+  localStorage.clear();
+  this.router.navigate(['']);
+}
+
 
 }

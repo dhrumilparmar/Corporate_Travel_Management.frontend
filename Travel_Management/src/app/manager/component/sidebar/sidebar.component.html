@@ -24,6 +24,13 @@
         <span class="material-symbols-outlined">flight_takeoff</span>
         Pending Requests
       </a>
+
+      <a [routerLink]="['./create-request']" 
+         routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 
+         [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-4 py-3 px-4 rounded transition-all text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-sky-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 font-manrope text-sm font-semibold tracking-tight">
+        <span class="material-symbols-outlined">receipt_long</span>
+        Create Request
+      </a>
       
       <a [routerLink]="['./requests-history']" 
          routerLinkActive="bg-white/50 dark:bg-slate-800/50 border-[#1A365D] text-[#1A365D]" 

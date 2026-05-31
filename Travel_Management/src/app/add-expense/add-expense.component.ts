@@ -45,7 +45,7 @@ export class AddExpenseComponent implements OnInit {
     this.getAllFinTrExpense();
 
   }
-employeeid = 59;
+employeeid = Number(localStorage.getItem('employeeId')) ;
 
   getAllFinTrExpense(): void{
     this.adminService.getAllFinanceApprovedExpense(this.employeeid).subscribe({

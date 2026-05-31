@@ -35,7 +35,7 @@ export class BillSubmitionComponent implements OnInit {
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private adminService: AdminServiceService) {}
-  employeeID = 59
+  employeeID = Number(localStorage.getItem('employeeId')) ;
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     this.requestId = (idParam && idParam !== 'null') ? idParam : null;
