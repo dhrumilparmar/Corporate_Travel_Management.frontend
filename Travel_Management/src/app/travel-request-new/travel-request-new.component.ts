@@ -26,8 +26,7 @@ export class TravelRequestComponent implements OnInit {
   editingTravelReqID?: number;
   TravelOptions = [
     { key: 1, value: 'Road' },
-    { key: 2, value: 'Train' },
-    { key: 3, value: 'Flight' }
+    { key: 2, value: 'Train' }
   ];
   
   businessPurposes = [
@@ -69,7 +68,7 @@ export class TravelRequestComponent implements OnInit {
     }
   }
   defaultStatus = 'DRAFT';
-  employeeID = 59;
+  employeeID = Number(localStorage.getItem('employeeId'));
   initializeForms(): void {
     this.travelForm = this.fb.group({
       // Trip details
