@@ -21,7 +21,7 @@ import { AddEmployeeComponent } from './Admin/add-employee-component/add-employe
 import { AdminSidebarComponent } from './Admin/sidebar/sidebar.component';
 import { AllEmployeeComponent } from './Admin/all-employee/all-employee.component';
 import { TravelRequestComponent } from './travel-request-new/travel-request-new.component';
-
+import {AddExpenseComponent} from './add-expense/add-expense.component';
 export const routes: Routes = [
 {
   path: 'employee',
@@ -31,7 +31,8 @@ export const routes: Routes = [
     { path: 'new-request', component: TravelRequestComponent },
     { path: 'new-request/budget-details', component: BudgetDetailsComponent },
     { path: 'travel-requests', component: TravelRequestsComponent },
-    { path: 'expenses', component: BillSubmitionComponent },
+    { path: 'expenses', component: AddExpenseComponent },
+    { path: 'addBills/:id', component: BillSubmitionComponent },
     { path: 'profile', component: ProfileSectionComponent },
   ]
 },
