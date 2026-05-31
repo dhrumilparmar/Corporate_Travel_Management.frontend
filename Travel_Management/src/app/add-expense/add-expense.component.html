@@ -1,0 +1,166 @@
+<main class="max-w-[1400px] mx-auto px-8 md:px-20 py-16">
+  <!-- Header Section -->
+  <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <div class="max-w-2xl">
+      <a 
+        (click)="goBackToDashboard()"
+        class="inline-flex items-center gap-2 text-secondary font-semibold mb-6 group transition-all duration-300 cursor-pointer">
+        <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">
+          arrow_back
+        </span>
+        <span>Back to Dashboard</span>
+      </a>
+      <h1 class="text-4xl md:text-5xl font-black text-primary tracking-tight mb-4">
+        Approved Travel Requests
+      </h1>
+      <p class="text-lg text-on-surface-variant leading-relaxed">
+        Manage your upcoming trips and log expenses for completed travel. Your approved budget is locked and ready for allocation.
+      </p>
+    </div>
+  </header>
+
+  <!-- Requests Grid/Table -->
+  <div class="bg-surface-container-low rounded-2xl overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-surface-container-high/50">
+            <th class="px-8 py-6 text-xs font-black uppercase tracking-widest text-on-surface-variant">
+              Request ID
+            </th>
+            <th class="px-8 py-6 text-xs font-black uppercase tracking-widest text-on-surface-variant">
+              Destination
+            </th>
+            <th class="px-8 py-6 text-xs font-black uppercase tracking-widest text-on-surface-variant">
+              Travel Dates
+            </th>
+            <th class="px-8 py-6 text-xs font-black uppercase tracking-widest text-on-surface-variant">
+              Approved Budget
+            </th>
+            <th class="px-8 py-6 text-xs font-black uppercase tracking-widest text-on-surface-variant">
+              Status
+            </th>
+            <th class="px-8 py-6 text-xs font-black uppercase tracking-widest text-on-surface-variant text-right">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-variant/30">
+          <tr 
+            *ngFor="let request of travelRequests"
+            (click)="onRowClick($event, request)"
+            class="hover:bg-surface-container-lowest transition-colors duration-300 group cursor-pointer">
+            
+            <!-- Request ID -->
+            <td class="px-8 py-8">
+              <span class="font-bold text-primary">#{{ request.reqID }}</span>
+            </td>
+
+            <!-- Destination -->
+            <td class="px-8 py-8">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center overflow-hidden">
+                  <img 
+                    [src]="request.imageUrl"
+                    [alt]="request.imageAlt"
+                    class="w-full h-full object-cover"/>
+                </div>
+                <div>
+                  <p class="font-bold text-on-surface">{{ request.destination }}</p>
+                  <p class="text-sm text-on-surface-variant">{{ request.purpose }}</p>
+                </div>
+              </div>
+            </td>
+
+            <!-- Travel Dates -->
+            <td class="px-8 py-8">
+              <div class="flex flex-col">
+                <span class="font-medium text-on-surface">
+                  {{ formatDateRange(request.startDate, request.endDate) }}
+                </span>
+
+
+              </div>
+            </td>
+
+            <!-- Budget -->
+            <td class="px-8 py-8 font-bold text-on-surface">
+              ${{ formatCurrency(request.budget) }}
+            </td>
+
+            <!-- Status -->
+            <td class="px-8 py-8">
+              <span 
+                class="px-3 py-1 text-xs font-black uppercase tracking-wider rounded-full"
+                [ngClass]="{
+                  'bg-primary/5 text-primary': request.status === 'approved',
+                  'bg-secondary/5 text-secondary': request.status === 'pending',
+                  'bg-tertiary/5 text-tertiary': request.status === 'completed'
+                }">
+                {{ request.status }}
+              </span>
+            </td>
+
+            <!-- Actions -->
+            <td class="px-8 py-8 text-right">
+              <button 
+                (click)="navigateToExpense(request.id)"
+                class="bg-primary text-on-primary px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-primary-container transition-all active:scale-95 shadow-sm">
+                Add Expense
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer / Insight Section -->
+  <section class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Expense Auto-Sync Card -->
+    <div class="p-8 bg-primary text-on-primary rounded-2xl relative overflow-hidden group">
+      <div class="relative z-10">
+        <span class="material-symbols-outlined text-4xl mb-4 text-secondary-container">
+          receipt_long
+        </span>
+        <h3 class="text-xl font-bold mb-2">Expense Auto-Sync</h3>
+        <p class="text-sm text-on-primary-container leading-relaxed">
+          Connected corporate cards will automatically reconcile transactions once your trip begins.
+        </p>
+      </div>
+      <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-primary-container/20 rounded-full blur-3xl group-hover:bg-secondary-container/20 transition-all duration-700"></div>
+    </div>
+
+    <!-- Concierge Support Card -->
+    <div class="p-8 bg-surface-container-low rounded-2xl border border-surface-variant/20">
+      <span class="material-symbols-outlined text-4xl mb-4 text-primary">
+        verified_user
+      </span>
+      <h3 class="text-xl font-bold text-primary mb-2">Concierge Support</h3>
+      <p class="text-sm text-on-surface-variant leading-relaxed mb-4">
+        Need to modify an approved trip? Our premium concierge team is available 24/7.
+      </p>
+      <button 
+        (click)="contactAgent()"
+        class="text-sm font-black uppercase tracking-widest text-secondary hover:underline underline-offset-4 transition-all">
+        Contact Agent
+      </button>
+    </div>
+
+    <!-- Travel Policy Card -->
+    <div class="p-8 bg-surface-container-low rounded-2xl border border-surface-variant/20">
+      <span class="material-symbols-outlined text-4xl mb-4 text-primary">
+        flight_takeoff
+      </span>
+      <h3 class="text-xl font-bold text-primary mb-2">Travel Policy</h3>
+      <p class="text-sm text-on-surface-variant leading-relaxed mb-4">
+        Your current Tier 1 status allows for premium economy on all international flights over 6 hours.
+      </p>
+      <button 
+        (click)="viewGuidelines()"
+        class="text-sm font-black uppercase tracking-widest text-secondary hover:underline underline-offset-4 transition-all">
+        View Guidelines
+      </button>
+    </div>
+  </section>
+</main>
