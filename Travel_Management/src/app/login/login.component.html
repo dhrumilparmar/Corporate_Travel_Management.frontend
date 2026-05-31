@@ -37,23 +37,24 @@
             <p class="text-on-surface-variant font-body">Sign in to your professional account</p>
           </div>
           
-          <form class="space-y-6">
+          <form class="space-y-6" (ngSubmit)="login()">
             <div class="space-y-2">
               <label class="block text-sm font-semibold text-on-surface-variant font-label" for="email">Email</label>
-              <input class="w-full px-4 py-4 bg-surface-container-highest border-none rounded-lg focus:ring-0 focus:bg-surface-container-lowest transition-all border-b-2 border-transparent focus:border-secondary placeholder:text-outline" id="email" placeholder="name@company.com" type="email">
+                <input class="w-full px-4 py-4 bg-surface-container-highest border-none rounded-lg focus:ring-0 focus:bg-surface-container-lowest transition-all border-b-2 border-transparent focus:border-secondary placeholder:text-outline" id="email" name="userEmail" [(ngModel)]="loginData.userEmail" placeholder="name@company.com" type="email" required>
+
             </div>
             
             <div class="space-y-2">
               <div class="flex justify-between items-center">
                 <label class="block text-sm font-semibold text-on-surface-variant font-label" for="password">Password</label>
               </div>
-              <input class="w-full px-4 py-4 bg-surface-container-highest border-none rounded-lg focus:ring-0 focus:bg-surface-container-lowest transition-all border-b-2 border-transparent focus:border-secondary placeholder:text-outline" id="password" placeholder="enter password" type="password">
+              <input class="w-full px-4 py-4 bg-surface-container-highest border-none rounded-lg focus:ring-0 focus:bg-surface-container-lowest transition-all border-b-2 border-transparent focus:border-secondary placeholder:text-outline" id="password" name="password" [(ngModel)]="loginData.password" placeholder="enter password" type="password" required>
             </div>
             
 
             
             <button class="w-full editorial-gradient text-on-primary py-4 rounded-lg font-headline font-bold text-lg hover:shadow-lg transition-all active:scale-[0.98]" type="submit">
-              Sign In
+              Login In
             </button>
           </form>
           

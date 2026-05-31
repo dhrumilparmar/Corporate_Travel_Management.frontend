@@ -22,10 +22,17 @@ import { AdminSidebarComponent } from './Admin/sidebar/sidebar.component';
 import { AllEmployeeComponent } from './Admin/all-employee/all-employee.component';
 import { TravelRequestComponent } from './travel-request-new/travel-request-new.component';
 import {AddExpenseComponent} from './add-expense/add-expense.component';
+import { authGuardGuard } from './guard/auth-guard.guard';
+import { roleGuardGuard } from './guard/role-guard.guard';
+import { TravelRequestComponentManager } from './manager/travel-request-new/travel-request-new.component';
 export const routes: Routes = [
 {
   path: 'employee',
   component: SidebarComponent,
+  canActivate: [authGuardGuard, roleGuardGuard],
+  data: {
+    roles: ['EMPLOYEE']
+  },
   children: [
     { path: '', redirectTo: 'travel-requests', pathMatch: 'full' },
     { path: 'new-request', component: TravelRequestComponent },
@@ -40,11 +47,16 @@ export const routes: Routes = [
 
 {
     path: 'manager',
-    component: SidebarComponentManager,   
+    component: SidebarComponentManager,
+    canActivate: [authGuardGuard, roleGuardGuard],
+    data: {
+      roles: ['MANAGER']
+    },   
     children: [
       { path: '', redirectTo: 'pending-requests', pathMatch: 'full' }, // Default to pending requests
       { path: 'pending-requests', component: PendingApprovalsComponent },
       { path: 'requests-history', component: RequestHistoryComponent },
+      { path: 'create-request', component: TravelRequestComponentManager },
       { path: 'expenses', component: BudgetDetailsComponent },
       { path: 'manager-profile', component: ManagerProfileComponent }, // Lowercase kebab case for consistency
     ]
@@ -54,6 +66,10 @@ export const routes: Routes = [
     {
     path: 'finance',
     component: SidebarComponentFinance,
+    canActivate: [authGuardGuard, roleGuardGuard],
+    data: {
+      roles: ['FINANCE']
+    },
     children: [
       { path: '', redirectTo: 'pending-requests', pathMatch: 'full' },
       { path: 'pending-requests', component: PendingRequestComponentFinance},
@@ -66,6 +82,10 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminSidebarComponent,
+    canActivate: [authGuardGuard, roleGuardGuard],
+    data: {
+      roles: ['ADMIN']
+    },
     children: [
       { path: '', redirectTo: 'all-employees', pathMatch: 'full' },
 
