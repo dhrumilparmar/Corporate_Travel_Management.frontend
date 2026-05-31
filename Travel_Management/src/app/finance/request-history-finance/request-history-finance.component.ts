@@ -1,110 +1,101 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AdminServiceService } from '../../service/admin-service.service';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-request-history-finance',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './request-history-finance.component.html',
   styleUrl: './request-history-finance.component.scss'
 })
 export class RequestHistoryFinanceComponent {
 isDarkMode = false;
+    constructor(private router: Router, private adminService: AdminServiceService) {}
+ngOnInit() {
 
-  totalLogs = 284;
+  this.getAllRequest();
+  // currentFinanceID: any = localStorage.getItem('financeId');
+
+}
+  currentFinanceID = 60; 
+getAllRequest(): void{
+  // Call the service to fetch all requests and assign to this.requests
+  this.adminService.getAllFinanceApprovedReq(this.currentFinanceID).subscribe({
+    next: (data) => {
+      console.log('Finance view - All requests:', data);
+
+      // Helper function to format date as DD-MMM (e.g., 25-May)
+      const formatDateMonth = (dateString: string) => {
+        if (!dateString) return '';
+        const d = new Date(dateString);
+        const day = d.getDate().toString().padStart(2, '0');
+        const month = d.toLocaleString('en-US', { month: 'short' });
+        return `${day}-${month}`;
+      };
+
+      this.requests = data.map((item: any) => ({
+        employee: {
+          name: item.employeeName,
+          title: item.department, // Using department in place of the title
+          // Automatically generate an initials avatar based on the employee's name
+          image: `https://ui-avatars.com/api/?name=${encodeURIComponent(item.employeeName)}&background=random`,
+          travel: item.travelRequest
+        },
+        destination: {
+          location: item.destination,
+          dates: item.start_travel && item.end_travel ? `${formatDateMonth(item.start_travel)} to ${formatDateMonth(item.end_travel)}` : 'Dates TBA'
+        },
+        status: {
+          label: item.status ? item.status.replace('_', ' ') : 'Approved', // e.g. changes "FINANCE_APPROVED" to "FINANCE APPROVED"
+          type: item.status ? item.status.toLowerCase() : 'approved',
+          date: item.approvedTime ? formatDateMonth(item.approvedTime) : 'N/A' 
+        }
+      }));
+    },
+    error: (err)=>{
+      console.error('Error fetching finance approved requests:', err);
+    }
+
+  })
+
+}
+
   currentPage = 1;
   itemsPerPage = 5;
 
-  requests = [
-    {
-      employee: {
-        name: 'Marcus Thorne',
-        title: 'Senior Director, Strategy',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuApAS7aYqPHGt5v9GsQxjylKWrx3QGuFwhC83j22AevckNfiYF45-G6SF8gJCg5bUD6U3lj5o9lTJdsSBO6Az2Kc9hXfH99WmkGIOaoChgjnrv5sH94Ohqv-n4mOppnL7oVYer6sSeUMq6e4XnJyFS7EX2pmYQrURuTbeBv3WWm4iIpsiW7ykredzzkEtYeGhLbDinwoXoM84APg2AIXUnyUIefJHavdo1YhJUqjI3uH-treSyUah4ECgcSO8s6haqDfJ4hJjKnyYM'
-      },
-      destination: {
-        location: 'London, UK',
-        dates: 'Oct 12 - Oct 18, 2024'
-      },
-      status: {
-        label: 'Approved',
-        type: 'approved',
-        date: 'Oct 05, 2024'
-      }
-    },
-    {
-      employee: {
-        name: 'Elena Rodriguez',
-        title: 'VP Engineering',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtfV2bFNBVkpP5QVXZ-8AOhAcLtibqKuX1AHBPFIMiiezKzgoJfG6UFfU8H-XH4Fx1NUZC3cU-l-AYylFGlsOcaIWyShO_hjONNBPEpsP1Z4cNPAQmikHLjxEfL2nWfA1UugiEdf85jJdXzgcQvmQiaBmLH1Z38x21a9Lzj_Ujx55KG-pgh0N10JW-Kg6Pj2s5XjGP3n84Um6OCMClLZNmLQKz2_x2BBFUqGmIXS9YHmaAWvIgFp1F_n2T8NjbFupj7amlS1J_UvY'
-      },
-      destination: {
-        location: 'Tokyo, Japan',
-        dates: 'Nov 02 - Nov 10, 2024'
-      },
-      status: {
-        label: 'Rejected',
-        type: 'rejected',
-        date: 'Oct 14, 2024'
-      }
-    },
-    {
-      employee: {
-        name: 'David Chen',
-        title: 'Account Manager',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAOaUe53iB3E9XnFSBCxMj9-NAtFLlsAmrguiPT-lziVpUq0QM9L8Qfb14zwQg7HWB48qEQInLCvgB5Fks68aX1AOesi0wQhURl-A1YcW49ESPd7uiKQZ9IWrtNntVKZMFlAY-iybpFva1qq991Bq-oiUJ6Fjl7Nh3cpuBOj2TrcBtBkkuSCR9o_GWtKH1wJVkwLeCDG88FSVfFUa-bLZSuSwIogevGyaxCUGds9Rsi-rkmNd3SJBVCfYApDuBXSPidlYHAwgaylMI'
-      },
-      destination: {
-        location: 'San Francisco, USA',
-        dates: 'Sep 15 - Sep 20, 2024'
-      },
-      status: {
-        label: 'Completed',
-        type: 'completed',
-        date: 'Sep 01, 2024'
-      }
-    },
-    {
-      employee: {
-        name: 'Sarah Jenkins',
-        title: 'HR Generalist',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAJ8mNAKcc0CsmXkfxgJI-XQ6gpKWQl_aLl76Wpgt_ivyRSjnmC90_C0W0LKRq4MbjoflLgo6V8IAoC1-7_MgROUZC1x2DAbRKh8a6cNgvA-u61bYoUF5WkoA6NNuT2sS38RC936J_dlskj0JqFNEBsxZPEU8VUaH_lj9it1o9pKb0jrBlTZRUE0sgXxu7Dl8KCnui4JOf4sU4v5VvLyKFj2oLI8V_0UjxnA07OLGVIeeNPW59tFfjGLzp_7NYPIoXXLds_-R2iSc8'
-      },
-      destination: {
-        location: 'Zurich, Switzerland',
-        dates: 'Oct 20 - Oct 25, 2024'
-      },
-      status: {
-        label: 'Reimbursed',
-        type: 'reimbursed',
-        date: 'Oct 18, 2024'
-      }
-    },
-    {
-      employee: {
-        name: 'Julian Meyer',
-        title: 'Head of Brand',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDAtFcCy-MFAqKJX_aJB680rO_HsSMF1o_AnWA5HkcrKLY1EGSmwkJxg3SyuPndIeHHqbG1nW-a4CIQs-dbOSv51zJObfj_EkwEfk3pwkrl_DvxhXlJjErlPk202BTBdISV6l6CvVm3DY7lj0wpa7P-orqRrz-s0bb0jvM8cQcrr6bGRAc6lKSc_TpHicHyryMtAP-IgJ6mACSI8HCN1O23_UQMdzQtvvN8ypbDW1smtaikfOlq5_YI6sDKsWnLN2nDh_dWOGgFNL0'
-      },
-      destination: {
-        location: 'Berlin, Germany',
-        dates: 'Dec 05 - Dec 12, 2024'
-      },
-      status: {
-        label: 'Approved',
-        type: 'approved',
-        date: 'Oct 28, 2024'
-      }
-    }
-  ];
+  requests: any[] = [];
+  searchTerm = '';
+  statusFilter = '';
+
+  get filteredRequests() {
+    return this.requests.filter(request => {
+      const matchesSearch = this.searchTerm 
+        ? request.employee.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+          request.destination.location.toLowerCase().includes(this.searchTerm.toLowerCase())
+        : true;
+        
+      const matchesStatus = this.statusFilter
+        ? request.status.type === this.statusFilter.toLowerCase()
+        : true;
+        
+      return matchesSearch && matchesStatus;
+    });
+  }
+
+  get totalLogs() {
+    return this.filteredRequests.length;
+  }
 
   get paginatedRequests() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.requests.slice(startIndex, startIndex + this.itemsPerPage);
+    return this.filteredRequests.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   get totalPages() {
-    return Math.ceil(this.requests.length / this.itemsPerPage);
+    return Math.ceil(this.filteredRequests.length / this.itemsPerPage) || 1;
   }
 
   nextPage() {
@@ -129,7 +120,9 @@ isDarkMode = false;
   }
 
   clearFilters(): void {
-    // Add filter clearing logic here
+    this.searchTerm = '';
+    this.statusFilter = '';
+    this.currentPage = 1;
     console.log('Filters cleared');
   }
 }

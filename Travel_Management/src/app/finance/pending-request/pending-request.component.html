@@ -79,12 +79,11 @@
                 </div>
               </div>
             </td>
+
             <td class="px-8 py-6">
-              <p class="font-headline font-bold text-primary">
-                {{ request.amount.value | currency:request.amount.currency:'symbol':'1.2-2' }}
-                <span class="text-xs text-on-surface-variant font-body">{{ request.amount.currency }}</span>
-              </p>
+              <span class="font-headline font-bold text-on-surface">{{ request.budget.amount | number:'1.2-2' }}</span>
             </td>
+
             <td class="px-8 py-6">
               <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border" [ngClass]="{
                   'bg-secondary-container/20 text-on-secondary-container border-secondary-container/30': request.policy.isCompliant,
@@ -104,10 +103,10 @@
             </td>
             <td class="px-8 py-6 text-right">
               <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button (click)="approveRequest(request.id)" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-primary-container transition-colors">
+                <button (click)="approveRequest(request.trID)" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-primary-container transition-colors">
                   Approve
                 </button>
-                <button (click)="rejectRequest(request.id)" class="bg-surface-container-highest text-error px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-error-container transition-colors">
+                <button (click)="rejectRequest(request.trID)" class="bg-surface-container-highest text-error px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-error-container transition-colors">
                   Reject 
                 </button>
               </div>

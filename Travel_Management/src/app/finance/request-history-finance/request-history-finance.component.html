@@ -27,6 +27,7 @@
         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
         <input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border-none rounded-lg font-body focus:ring-2 focus:ring-secondary/20 transition-all text-on-surface placeholder:text-outline/50"
                placeholder="Search by name or department..."
+               [(ngModel)]="searchTerm"
                type="text"/>
       </div>
     </div>
@@ -35,12 +36,11 @@
     <div class="w-64">
       <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 font-label">Status</label>
       <div class="relative group">
-        <select class="w-full appearance-none px-4 py-4 bg-surface-container-lowest border-none rounded-lg font-body focus:ring-2 focus:ring-secondary/20 transition-all text-on-surface cursor-pointer">
-          <option>All Statuses</option>
-          <option>Approved</option>
-          <option>Rejected</option>
-          <option>Completed</option>
-          <option>Reimbursed</option>
+        <select [(ngModel)]="statusFilter" class="w-full appearance-none px-4 py-4 bg-surface-container-lowest border-none rounded-lg font-body focus:ring-2 focus:ring-secondary/20 transition-all text-on-surface cursor-pointer">
+          <option value="">All Statuses</option>
+          <option value="finance_approved">Finance Approved</option>
+          <option value="finance_approved">Finance Rejected</option>
+
         </select>
         <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
       </div>
@@ -71,7 +71,8 @@
       <thead>
         <tr class="bg-primary text-white">
           <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Employee</th>
-          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Destination & Dates</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">TravelCode</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Destination</th>
           <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Final Status</th>
           <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase text-right">Decision Date</th>
         </tr>
@@ -93,12 +94,15 @@
           </td>
           <td class="px-8 py-6">
             <div class="flex flex-col">
-              <span class="font-bold text-primary font-headline">{{ request.destination.location }}</span>
+              <span class="font-bold text-primary font-headline">{{ request.employee.travel }}</span>
               <span class="text-sm text-on-surface-variant font-body">{{ request.destination.dates }}</span>
             </div>
           </td>
           <td class="px-8 py-6">
-            <span class="px-4 py-1.5 rounded-full text-xs font-bold tracking-tight flex w-fit items-center gap-1.5"
+            <span class="text-sm text-on-surface-variant font-body">{{ request.destination.location }}</span>
+          </td>
+          <td class="px-8 py-6">
+            <span class="px-4 py-1.5 rounded-full text-xs font-bold tracking-tight inline-flex items-center gap-1.5"
                   [ngClass]="{
                     'bg-green-100 text-green-700': request.status.type === 'approved',
                     'bg-red-100 text-red-700': request.status.type === 'rejected',

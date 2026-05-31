@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { AdminServiceService } from '../../service/admin-service.service';
+import { Router } from '@angular/router';
 
 // Interface for a single request for strong typing
 export interface FinanceRequest {
   id: string;
+  trID: number;
+  employeeid: number;
   employee: {
     name: string;
     initials: string;
@@ -11,9 +15,8 @@ export interface FinanceRequest {
     avatarColor: string; // e.g., 'bg-primary-fixed', 'bg-secondary-fixed'
     textColor: string; // e.g., 'text-on-primary-fixed', 'text-on-secondary-fixed'
   };
-  amount: {
-    value: number;
-    currency: string;
+  budget: {
+    amount: number;
   };
   policy: {
     isCompliant: boolean;
@@ -36,73 +39,93 @@ export class PendingRequestComponentFinance {
   avgProcessingTime = '4.2h';
   highValueCount = 3;
   currentPage = 1;
+  currentFinanceID = 60;
 
-  // Mock data for the table
-  requests: FinanceRequest[] = [
-    {
-      id: '#TR-1042',
-      employee: {
-        name: 'Jonathan Sterling',
-        initials: 'JS',
-        department: 'Strategic Operations',
-        avatarColor: 'bg-primary-fixed',
-        textColor: 'text-on-primary-fixed'
+  requests: FinanceRequest[] = []; 
+    constructor(private router: Router, private adminService: AdminServiceService) {}
+
+  ngOnInit(): void{
+
+    this.getAllRequest();
+  }
+
+  getAllRequest(): void{
+    this.adminService.getAllManagerApprovedReq().subscribe({
+      next: (data) => {
+        console.log('Finance view - All requests:', data);
+        this.requests = data.map((req: any)=> ({
+          id: req.requestCode,
+          trID: req.travelReqId || req.travelReqID || req.travel_reqid || req.TravelReqId || req.id,
+          employeeid: req.employeeid,
+          employee: {
+            name: req.employeeName,
+            initials: req.employeeName.split(' ').map((n: string) => n[0]).join(''), // Get initials from name
+            department: req.departmentName,
+            avatarColor: 'bg-primary-fixed',
+            textColor: 'text-on-primary-fixed'
+
+          },
+          budget: {
+            amount: req.budgetAmount,
+            currency: req.currency || '$'
+          },
+          policy: {
+            isCompliant: !req.policyViolation,
+            text: req.policyViolation ? 'Policy Violation' : 'Within Policy'
+          },
+          managerApproved: req.managerApprovalStatus === 'Manager Approved'
+        }))
+
+      
       },
-      amount: { value: 4250.00, currency: 'USD' },
-      policy: { isCompliant: true, text: 'Within Policy' },
-      managerApproved: true,
-    },
-    {
-      id: '#TR-1045',
-      employee: {
-        name: 'Elena Aris',
-        initials: 'EA',
-        department: 'Global Sales',
-        avatarColor: 'bg-secondary-fixed',
-        textColor: 'text-on-secondary-fixed'
-      },
-      amount: { value: 12800.00, currency: 'USD' },
-      policy: { isCompliant: false, text: '⚠️ Policy Violation' },
-      managerApproved: true,
-    },
-    {
-      id: '#TR-1048',
-      employee: {
-        name: 'Marcus Kael',
-        initials: 'MK',
-        department: 'Product Design',
-        avatarColor: 'bg-tertiary-fixed',
-        textColor: 'text-on-tertiary-fixed'
-      },
-      amount: { value: 1120.50, currency: 'USD' },
-      policy: { isCompliant: true, text: 'Within Policy' },
-      managerApproved: true,
-    },
-    {
-      id: '#TR-1051',
-      employee: {
-        name: 'Lucia Hemmingway',
-        initials: 'LH',
-        department: 'Executive Suite',
-        avatarColor: 'bg-primary-fixed-dim',
-        textColor: 'text-on-primary-fixed'
-      },
-      amount: { value: 8900.00, currency: 'USD' },
-      policy: { isCompliant: true, text: 'Within Policy' },
-      managerApproved: true,
-    },
-  ];
+      error: (error) => {
+        console.error('Failed to load requests for finance view', error);
+      }
+
+    })
+  }
+
+  private buildFinanceActionPayload(travelReqID: number, action: 'APPROVED' | 'REJECTED') {
+    const selectedRequest = this.requests.find(req => req.trID === travelReqID);
+    return {
+      travelReqID,
+      approverID: this.currentFinanceID,
+      action,
+      employeeid: selectedRequest ? selectedRequest.employeeid : 0
+    };
+  }
 
   // --- Component Methods ---
 
-  approveRequest(requestId: string): void {
-    console.log(`Approving request: ${requestId}`);
-    // In a real app, you would call a service to update the backend
-    // and then remove the item from the local 'requests' array.
+  approveRequest(travelReqID: number): void {
+    const payload = this.buildFinanceActionPayload(travelReqID, 'APPROVED');
+
+    console.log('Posting finance approval payload:', payload);
+
+    this.adminService.processFinanceRequest(payload).subscribe({
+      next: (response) => {
+        console.log('Request approved successfully:', response);
+        this.getAllRequest();
+      },
+      error: (error) => {
+        console.error('Failed to approve request:', error);
+      }
+    });
   }
 
-  rejectRequest(requestId: string): void {
-    console.log(`Rejecting request: ${requestId}`);
-    // Similar to approve, call a service and update the local state.
+  rejectRequest(travelReqID: number): void {
+    const payload = this.buildFinanceActionPayload(travelReqID, 'REJECTED');
+
+    console.log('Posting finance rejection payload:', payload);
+
+    this.adminService.processFinanceRequest(payload).subscribe({
+      next: (response) => {
+        console.log('Request rejected successfully:', response);
+        this.getAllRequest();
+      },
+      error: (error) => {
+        console.error('Failed to reject request:', error);
+      }
+    });
   }
 }
