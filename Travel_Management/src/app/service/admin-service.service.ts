@@ -8,6 +8,8 @@ export class AdminServiceService {
 
   constructor(private http: HttpClient) { }
 
+  private LoginUrl = 'http://localhost:8080/rest/auth/login';
+
   private AllEmployeeapiUrl = 'http://localhost:8080/api/employee/getAll'; 
   private createEmployeeUrl = 'http://localhost:8080/api/employee/createEmployee';
   private deleteEmployeeUrl = 'http://localhost:8080/api/employee/deleteEmployee';
@@ -27,6 +29,7 @@ export class AdminServiceService {
 
   private addExpenseUrl = 'http://localhost:8080/travelrequest/expenses';
 
+
   //manger
 
   private getAllTrReqViewUrl= 'http://localhost:8080/rest/manager/{managerId}/pending-requests';
@@ -42,6 +45,13 @@ export class AdminServiceService {
     return this.http.post<any>(this.approveReqUrl, approvalData);
   }
 
+  private getAllTrForManagerUrl = 'http://localhost:8080/rest/manager/allrequest';
+
+
+
+  getAllManagerReq(managerId: any): Observable<any> {
+    return this.http.get<any>(`${this.getAllTrForManagerUrl}/${managerId}`);
+  }
 
   //EMPLOYYEE N travelrequest
   updateTravelReq(updatedata: any): Observable<any> {
@@ -114,5 +124,33 @@ export class AdminServiceService {
     return this.http.get<any>(`${this.getAllTrReqFinanceApprovedUrl}/${financeId}`);
   }
 
-  
+
+
+    login(data: any): Observable<any> {
+    return this.http.post<any>(`${this.LoginUrl}`, data);
+  }
+
+    saveLoginData(response: any): void {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('employeeId', response.employeeId.toString());
+    localStorage.setItem('employeeName', response.employeeName);
+    localStorage.setItem('userEmail', response.userEmail);
+    localStorage.setItem('role', response.role);
+  }
+
+    getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  logout(): void {
+    localStorage.clear();
+  }
 }
