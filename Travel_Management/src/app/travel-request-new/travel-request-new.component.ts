@@ -60,16 +60,16 @@ export class TravelRequestComponent implements OnInit {
         purpose: tr.purpose || '',
         justification: tr.justification || '',
         status: tr.status || this.defaultStatus,
-        transportID: tr.transportID || tr.transportMode?.transportID || '',
-        travelAmount: tr.travelAmount ?? 0,
-        accommodationAmount: tr.accommodationAmount ?? 0,
-        localTransportAmount: tr.localTransportAmount ?? 0,
-        mealsAmount: tr.mealsAmount ?? 0
+        transportID: tr.transportID || '',
+        travelAmount: tr.budget?.travelAmount ?? tr.travelAmount ?? 0,
+        accommodationAmount: tr.budget?.accommodationAmount ?? tr.accommodationAmount ?? 0,
+        localTransportAmount: tr.budget?.localTransportAmount ?? tr.localTransportAmount ?? 0,
+        mealsAmount: tr.budget?.mealsAmount ?? tr.mealsAmount ?? 0
       });
     }
   }
   defaultStatus = 'DRAFT';
-  employeeID = 14;
+  employeeID = 59;
   initializeForms(): void {
     this.travelForm = this.fb.group({
       // Trip details
@@ -149,10 +149,12 @@ onSaveAsDraft() {
         status: formData.status || 'DRAFT',
         employeeID: formData.employeeID,
         transportID: formData.transportID,
-        travelAmount: formData.travelAmount || 0,
-        accommodationAmount: formData.accommodationAmount || 0,
-        localTransportAmount: formData.localTransportAmount || 0,
-        mealsAmount: formData.mealsAmount || 0
+        budget: {
+            travelAmount: formData.travelAmount || 0,
+            accommodationAmount: formData.accommodationAmount || 0,
+            localTransportAmount: formData.localTransportAmount || 0,
+            mealsAmount: formData.mealsAmount || 0
+        }
     };
 
     console.log('Sending travel request:', travelRequestDto); // Debug log
@@ -177,9 +179,26 @@ onSaveAsDraft() {
     }
 
     const values = this.travelForm.value;
+    
+    const basePayload = {
+      destination: values.destination,
+      startTravel: values.startTravel,
+      endTravel: values.endTravel,
+      purpose: values.purpose,
+      justification: values.justification,
+      employeeID: values.employeeID,
+      transportID: values.transportID,
+      budget: {
+        travelAmount: values.travelAmount || 0,
+        accommodationAmount: values.accommodationAmount || 0,
+        localTransportAmount: values.localTransportAmount || 0,
+        mealsAmount: values.mealsAmount || 0
+      }
+    };
+
     if (this.isEdit) {
       // Update existing request
-      const payload = { ...values, travelReqID: this.editingTravelReqID };
+      const payload = { ...basePayload, status: values.status, travelReqID: this.editingTravelReqID };
       console.log('Updating travel request:', payload);
       this.adminService.updateTravelReq(payload).subscribe({
         next: (response) => {
@@ -197,7 +216,7 @@ onSaveAsDraft() {
     }
 
     const travelFormdata = {
-      ...values,
+      ...basePayload,
       status: 'Submitted'
     };
     console.log('form submitted:', travelFormdata);
