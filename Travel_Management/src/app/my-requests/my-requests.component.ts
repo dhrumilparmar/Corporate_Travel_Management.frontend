@@ -9,6 +9,7 @@ interface TravelRequest {
   status: 'Draft' | 'Submitted' | 'Manager Approved' | 'Finance Approved' | 'Rejected';
   purpose: string;
   travelReqID: number;
+
 }
 
 @Component({
@@ -22,7 +23,7 @@ export class TravelRequestsComponent {
 
   employeesTravelReq:any[]=[];
 
-  current_employeeID=14;
+  current_employeeID=59;
   constructor(private router: Router,  private adminService: AdminServiceService) {}
 
     ngOnInit(){
@@ -105,14 +106,13 @@ getTextColor(status: string): string {
 }
 
   isEditable(status?: string): boolean {
-    if (!status) return true;
-    const s = status.toLowerCase();
-    return s !== 'submitted' && s !== 'finance approved' && s !== 'manager approved';
+    if (!status) return false;
+    return status.toLowerCase() === 'draft';
   }
 
   canDelete(status?: string): boolean {
-    if (!status) return true;
-    return status.toLowerCase() !== 'submitted';
+    if (!status) return false;
+    return status.toLowerCase() === 'draft';
   }
 
   goBackToNewRequest(): void {
