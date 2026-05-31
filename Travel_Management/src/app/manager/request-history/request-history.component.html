@@ -70,53 +70,40 @@
     <table class="w-full border-collapse text-left">
       <thead>
         <tr class="bg-primary text-white">
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Request Code</th>
           <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Employee</th>
-          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Destination & Dates</th>
-          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Final Status</th>
-          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase text-right">Decision Date</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Department</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Budget</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Policy Status</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Manager Approval</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Status</th>
+          <th class="px-8 py-6 font-headline font-bold text-sm tracking-widest uppercase">Policy Violation</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-surface-container">
+        <tr *ngIf="requests.length === 0">
+          <td colspan="8" class="px-8 py-12 text-center text-on-surface-variant font-body">
+            No manager-approved requests found.
+          </td>
+        </tr>
         <tr *ngFor="let request of paginatedRequests"
-            class="group hover:bg-surface-container-low transition-colors cursor-pointer">
+            class="group hover:bg-surface-container-low transition-colors">
+          <td class="px-8 py-6 font-headline font-bold text-primary">{{ request.requestCode }}</td>
+          <td class="px-8 py-6 font-body">{{ request.employeeName }}</td>
+          <td class="px-8 py-6 font-body">{{ request.departmentName }}</td>
+          <td class="px-8 py-6 font-body">{{ request.currency }} {{ request.budgetAmount | number:'1.2-2' }}</td>
           <td class="px-8 py-6">
-            <div class="flex items-center gap-4">
-              <img [src]="request.employee.image"
-                   alt="Employee Profile"
-                   class="w-12 h-12 rounded-full object-cover"
-                   data-alt="portrait of a professional man in a tailored charcoal suit with a confident expression in a bright studio">
-              <div>
-                <p class="font-headline font-extrabold text-primary">{{ request.employee.name }}</p>
-                <p class="text-xs text-on-surface-variant font-label">{{ request.employee.title }}</p>
-              </div>
-            </div>
-          </td>
-          <td class="px-8 py-6">
-            <div class="flex flex-col">
-              <span class="font-bold text-primary font-headline">{{ request.destination.location }}</span>
-              <span class="text-sm text-on-surface-variant font-body">{{ request.destination.dates }}</span>
-            </div>
-          </td>
-          <td class="px-8 py-6">
-            <span class="px-4 py-1.5 rounded-full text-xs font-bold tracking-tight flex w-fit items-center gap-1.5"
-                  [ngClass]="{
-                    'bg-green-100 text-green-700': request.status.type === 'approved',
-                    'bg-red-100 text-red-700': request.status.type === 'rejected',
-                    'bg-blue-100 text-blue-700': request.status.type === 'completed',
-                    'bg-cyan-100 text-cyan-700': request.status.type === 'reimbursed'
-                  }">
-              <span class="w-1.5 h-1.5 rounded-full"
-                    [ngClass]="{
-                      'bg-green-600 animate-pulse': request.status.type === 'approved',
-                      'bg-red-600': request.status.type === 'rejected',
-                      'bg-blue-600': request.status.type === 'completed',
-                      'bg-cyan-600': request.status.type === 'reimbursed'
-                    }"></span>
-              {{ request.status.label }}
+            <span class="px-4 py-1.5 rounded-full text-xs font-bold tracking-tight bg-blue-100 text-blue-700">
+              {{ request.policyStatus }}
             </span>
           </td>
-          <td class="px-8 py-6 text-right">
-            <span class="text-on-surface-variant font-medium">{{ request.status.date }}</span>
+          <td class="px-8 py-6 font-body">{{ request.managerApprovalStatus }}</td>
+          <td class="px-8 py-6 font-body">{{ request.status }}</td>
+          <td class="px-8 py-6 font-body">
+            <span class="px-4 py-1.5 rounded-full text-xs font-bold tracking-tight"
+                  [ngClass]="request.policyViolation ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'">
+              {{ request.policyViolation ? 'Yes' : 'No' }}
+            </span>
           </td>
         </tr>
       </tbody>
@@ -125,7 +112,11 @@
     <!-- Pagination/Footer -->
     <footer class="bg-surface-container-low px-8 py-6 flex items-center justify-between">
       <p class="text-sm text-on-surface-variant font-body">
-        Showing <span class="font-bold text-primary">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{ (currentPage * itemsPerPage) > requests.length ? requests.length : (currentPage * itemsPerPage) }}</span> of {{ totalLogs }} requests
+        Showing
+        <span class="font-bold text-primary">
+          {{ requests.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1 }} - {{ requests.length === 0 ? 0 : ((currentPage * itemsPerPage) > requests.length ? requests.length : (currentPage * itemsPerPage)) }}
+        </span>
+        of {{ totalLogs }} requests
       </p>
       <div class="flex items-center gap-2">
         <button class="p-2 rounded-lg hover:bg-surface-container-highest transition-colors"

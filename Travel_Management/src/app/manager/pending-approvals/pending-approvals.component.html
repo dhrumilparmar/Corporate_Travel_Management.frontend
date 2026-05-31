@@ -1,14 +1,14 @@
-<div class="flex h-screen w-full overflow-hidden bg-background text-on-surface selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<div *ngIf="!hasNoRequests" class="flex h-screen w-full overflow-hidden bg-background text-on-surface selection:bg-secondary-fixed selection:text-on-secondary-fixed">
   <!-- Left Column: Master List (35%) -->
   <section class="w-[35%] flex flex-col bg-surface border-r border-outline-variant/30 z-10">
     <header class="px-10 py-10 flex-none">
       <h1 class="text-3xl font-extrabold tracking-tight text-primary mb-2">Pending Approvals</h1>
-      <p class="text-on-surface-variant text-sm font-medium">{{ requests.length }} requests requiring your review</p>
+      <p class="text-on-surface-variant text-sm font-medium">{{ ALlrequests.length || 0 }} requests requiring your review</p>
     </header>
 
     <div class="flex-1 overflow-y-auto px-6 pb-10 space-y-3 no-scrollbar">
       <!-- Selected Card -->
-      <div *ngFor="let request of requests; let i = index"
+      <div *ngFor="let request of ALlrequests; let i = index"
            class="group relative bg-surface-container-lowest p-5 rounded-xl transition-all duration-300 cursor-pointer"
            [class.ring-2]="selectedRequest === i"
            [class.ring-primary]="selectedRequest === i"
@@ -31,15 +31,14 @@
           </div>
           <div class="flex items-center text-on-surface-variant text-sm">
             <span class="material-symbols-outlined text-base mr-2" data-icon="calendar_month">calendar_month</span>
-            {{ request.dates }}
+            {{ request.startDate }} - {{ request.endDate }}
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Right Column: Detail Panel (65%) -->
-  <section class="w-[65%] bg-surface-bright flex flex-col overflow-y-auto no-scrollbar relative">
+  <section  class="w-[65%] bg-surface-bright flex flex-col overflow-y-auto no-scrollbar relative">
     <!-- Hero Header Section -->
     <div class="relative h-[240px] w-full flex-none overflow-hidden">
       <img alt="London Skyline" class="w-full h-full object-cover"
@@ -47,12 +46,12 @@
       <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/20 flex flex-col justify-end p-12">
         <div class="flex items-center gap-4 mb-2">
           <div class="h-14 w-14 rounded-full border-2 border-on-primary overflow-hidden shadow-xl bg-surface">
-            <img alt="{{ requests[selectedRequest].traveler }}" class="h-full w-full object-cover"
-                 [src]="requests[selectedRequest].image" />
+            <img alt="{{ detailedRequests[selectedRequest]?.traveler }}" class="h-full w-full object-cover"
+                 [src]="detailedRequests[selectedRequest]?.image" />
           </div>
           <div>
-            <h2 class="text-3xl font-black text-on-primary tracking-tight">{{ requests[selectedRequest].traveler }}</h2>
-            <p class="text-on-primary-container font-medium">{{ requests[selectedRequest].role }}</p>
+            <h2 class="text-3xl font-black text-on-primary tracking-tight">{{ detailedRequests[selectedRequest]?.traveler }}</h2>
+            <p class="text-on-primary-container font-medium">{{ detailedRequests[selectedRequest]?.role }}</p>
           </div>
         </div>
       </div>
@@ -61,7 +60,7 @@
     <!-- Content Container -->
     <div class="p-12 space-y-10 max-w-4xl">
       <!-- Request Details -->
-      <div>
+      <div >
         <h3 class="text-sm font-bold uppercase tracking-widest text-secondary mb-6 flex items-center">
           Request Details
           <span class="ml-4 flex-1 h-[1px] bg-outline-variant/30"></span>
@@ -71,26 +70,26 @@
             <p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Destination</p>
             <p class="text-lg font-medium text-primary flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary" data-icon="flight_takeoff">flight_takeoff</span>
-              {{ requests[selectedRequest].location }}
+              {{ detailedRequests[selectedRequest]?.location }}
             </p>
           </div>
           <div class="space-y-1">
             <p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Travel Dates</p>
             <p class="text-lg font-medium text-primary flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary" data-icon="date_range">date_range</span>
-              {{ requests[selectedRequest].dates }}
+              {{ getTravelDates(detailedRequests[selectedRequest]) }}
             </p>
           </div>
           <div class="col-span-2 space-y-1">
             <p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Travel Purpose</p>
             <p class="text-lg font-medium text-on-surface leading-relaxed">
-              {{ requests[selectedRequest].purpose }}
+              {{ detailedRequests[selectedRequest]?.purpose }}
             </p>
           </div>
           <div class="space-y-1">
             <p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Estimated Budget</p>
             <div class="inline-flex items-center bg-secondary-fixed/30 px-3 py-1.5 rounded-lg">
-              <span class="text-2xl font-black text-primary">{{ requests[selectedRequest].budget }}</span>
+              <span class="text-2xl font-black text-primary">{{ detailedRequests[selectedRequest]?.budget }}</span>
               <span class="ml-2 text-xs font-bold text-on-secondary-fixed-variant">USD</span>
             </div>
           </div>
@@ -98,18 +97,19 @@
             <p class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Policy Status</p>
             <div class="flex items-center gap-2 text-primary font-bold">
               <span class="material-symbols-outlined text-green-600" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-              <span class="text-sm">{{ requests[selectedRequest].policyStatus }}</span>
+              <span class="text-sm">{{ detailedRequests[selectedRequest]?.policyStatus }}</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Manager Review Section -->
+    <form #approvalForm="ngForm">
       <div class="bg-surface-container-low/40 rounded-2xl p-8">
         <h3 class="text-sm font-bold uppercase tracking-widest text-secondary mb-4">Manager Review</h3>
         <div class="space-y-2">
           <label class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter ml-1">Comments / Notes</label>
-          <textarea class="w-full bg-surface-container-lowest border-none rounded-xl p-4 text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/50 transition-all resize-none"
+          <textarea ngModel name="comments"class="w-full bg-surface-container-lowest border-none rounded-xl p-4 text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/50 transition-all resize-none"
                     placeholder="Add a reason for rejection or special instructions..."
                     rows="4"></textarea>
         </div>
@@ -118,16 +118,17 @@
       <!-- Footer Actions -->
       <div class="pt-6 flex gap-4">
         <button class="flex-1 py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-95 shadow-lg shadow-primary/20"
-                (click)="approveRequest()">
+                (click)="approveRequest(approvalForm)">
           Approve
           <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
         </button>
         <button class="flex-1 py-4 border-2 border-error/30 text-error rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-error/5 transition-all active:scale-95"
-                (click)="rejectRequest()">
+                (click)="rejectRequest(approvalForm)">
           Reject
           <span class="material-symbols-outlined text-xl">cancel</span>
         </button>
       </div>
+    </form>
       <div class="h-10"></div>
     </div>
 
@@ -140,5 +141,53 @@
         <span class="material-symbols-outlined">share</span>
       </button>
     </div>
+
   </section>
 </div>
+
+
+<main *ngIf="hasNoRequests" class="empty-state">
+  <div class="empty-state__wrapper">
+
+    <!-- Icon Composition -->
+    <div class="empty-state__icon-group">
+
+      <!-- Decorative Background -->
+      <div class="empty-state__glow"></div>
+
+      <!-- Main Icon -->
+      <div class="empty-state__icon-wrapper">
+
+        <span class="material-symbols-outlined empty-state__icon">
+          travel_explore
+        </span>
+
+        <!-- Small Accent -->
+        <div class="empty-state__badge">
+          <div class="empty-state__badge-dot"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="empty-state__content">
+
+      <h2 class="empty-state__title">
+        All caught up
+      </h2>
+
+      <p class="empty-state__description">
+        There are no pending travel requests at this time.
+        You'll see new requests here as they arrive.
+      </p>
+
+    </div>
+
+    <!-- Footer Chip -->
+
+
+
+
+  </div>
+</main>
